@@ -72,7 +72,13 @@
     </div>
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
-</div></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/mimir-migration/">Scaling Metrics Past the Limits of Prometheus Federation with Mimir</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span>&nbsp;<span class="post-publish">published on <time datetime="2026-06-15">2026-06-15</time></span></div><div class="content"><p>If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.</p>
+<p>Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional <strong>Prometheus Federation</strong> eventually hits a hard wall.</p>
+<p>This post details why we abandoned our federated pull architecture and migrated our entire global metrics pipeline to Grafana Mimir—without losing historical data, and while drastically slashing our storage costs.</p></div><div class="post-footer">
+        <a href="/posts/mimir-migration/">Read More</a></div>
+</article></div></div>
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.163.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>

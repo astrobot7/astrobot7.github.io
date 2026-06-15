@@ -3,5 +3,15 @@
         <title>All Posts - Aswin&#39;s Personal Blog</title>
         <link>https://blog.aswinkm.dev/posts/</link>
         <description>All Posts | Aswin&#39;s Personal Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://blog.aswinkm.dev/posts/" rel="self" type="application/rss+xml" /></channel>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 15 Jun 2026 18:35:44 &#43;0530</lastBuildDate><atom:link href="https://blog.aswinkm.dev/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Scaling Metrics Past the Limits of Prometheus Federation with Mimir</title>
+    <link>https://blog.aswinkm.dev/posts/mimir-migration/</link>
+    <pubDate>Mon, 15 Jun 2026 18:35:44 &#43;0530</pubDate>
+    <author>xxxx</author>
+    <guid>https://blog.aswinkm.dev/posts/mimir-migration/</guid>
+    <description><![CDATA[<p>If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.</p>
+<p>Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional <strong>Prometheus Federation</strong> eventually hits a hard wall.</p>
+<p>This post details why we abandoned our federated pull architecture and migrated our entire global metrics pipeline to Grafana Mimir—without losing historical data, and while drastically slashing our storage costs.</p>]]></description>
+</item>
+</channel>
 </rss>
