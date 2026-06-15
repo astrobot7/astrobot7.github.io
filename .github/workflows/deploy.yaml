@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: github-pages
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
