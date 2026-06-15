@@ -1,6 +1,6 @@
 +++
 date = '2026-06-15T18:35:44+05:30'
-draft = true
+draft = false
 title = 'Scaling Metrics Past the Limits of Prometheus Federation with Mimir'
 author = 'Aswin KM'
 +++
