@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Scaling Metrics Past the Limits of Prometheus Federation with Mimir - Aswin&#39;s Personal Blog</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="http://localhost:1313/posts/mimir-migration/">
+	<meta property="og:site_name" content="Aswin&#39;s Personal Blog">
+	<meta property="og:title" content="Scaling Metrics Past the Limits of Prometheus Federation with Mimir">
+	<meta property="og:description" content="If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.
+Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional Prometheus Federation eventually hits a hard wall.
+This post details why we abandoned our federated pull architecture and migrated our entire global metrics pipeline to Grafana Mimir—without losing historical data, and while drastically slashing our storage costs.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-06-15T18:35:44+05:30">
+		<meta property="article:modified_time" content="2026-06-15T18:35:44+05:30">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Scaling Metrics Past the Limits of Prometheus Federation with Mimir">
+	<meta name="twitter:description" content="If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.
+Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional Prometheus Federation eventually hits a hard wall.
+This post details why we abandoned our federated pull architecture and migrated our entire global metrics pipeline to Grafana Mimir—without losing historical data, and while drastically slashing our storage costs.">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/mimir-migration/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Scaling Metrics Past the Limits of Prometheus Federation with Mimir",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/mimir-migration\/"
+        },"genre": "posts","wordcount":  1041 ,
+        "url": "http:\/\/localhost:1313\/posts\/mimir-migration\/","datePublished": "2026-06-15T18:35:44+05:30","dateModified": "2026-06-15T18:35:44+05:30","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Aswin KM"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'auto';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Aswin&#39;s Personal Blog">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Aswin&#39;s Personal Blog">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Scaling Metrics Past the Limits of Prometheus Federation with Mimir</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2026-06-15">2026-06-15</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;1041 words&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-breaking-point-of-hierarchical-federation">The Breaking Point of Hierarchical Federation</a></li>
+    <li><a href="#enter-grafana-mimir-moving-from-pull-to-push">Enter Grafana Mimir: Moving from Pull to Push</a>
+      <ul>
+        <li><a href="#the-architectural-advantage">The Architectural Advantage</a></li>
+        <li><a href="#mimir-ingestion-architecture">Mimir Ingestion Architecture</a></li>
+        <li><a href="#mimir-query-architecture">Mimir Query Architecture</a></li>
+      </ul>
+    </li>
+    <li><a href="#infrastructure-as-code-migration-blueprint">infrastructure as Code: Migration Blueprint</a></li>
+    <li><a href="#high-availability-concerns">High Availability Concerns</a></li>
+    <li><a href="#lessons-learned--production-realities">Lessons Learned &amp; Production Realities</a></li>
+    <li><a href="#the-final-verdict">The Final Verdict</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.</p>
+<p>Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional <strong>Prometheus Federation</strong> eventually hits a hard wall.</p>
+<p>This post details why we abandoned our federated pull architecture and migrated our entire global metrics pipeline to Grafana Mimir—without losing historical data, and while drastically slashing our storage costs.</p>
+<h2 id="the-breaking-point-of-hierarchical-federation">The Breaking Point of Hierarchical Federation</h2>
+<p>In our old setup, we ran a pair of local Prometheus instances in every application cluster to scrape workloads. We then stood up a pair of massive, centralized &ldquo;Global&rdquo; Prometheus instances that scraped the /federate endpoint of every downstream cluster to aggregate core operational metrics.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/mimir-migration/federation.png"
+        data-srcset="/images/mimir-migration/federation.png, /images/mimir-migration/federation.png 1.5x, /images/mimir-migration/federation.png 2x"
+        data-sizes="auto"
+        alt="/images/mimir-migration/federation.png"
+        title="Legacy Prometheus Architecture" /></p>
+<p>This structural pattern works fine at a small scale, but as our engineering organization expanded beyond a million metrics being ingested per minute, three systemic issues paralyzed our monitoring stack:</p>
+<ul>
+<li>
+<p>The Monolithic Single Point of Failure (SPOF): Our global Prometheus was a pair of massive virtual machine running on expensive block storage (SSD). If those nodes got restarted or replayed its Write-Ahead Log (WAL), we were blind globally for a period of time.</p>
+</li>
+<li>
+<p>The High-Cardinality Exploding Scrape: When developers spun up dynamic microservices with unique container IDs or ephemeral labels, the data payload crossing the network via /federate caused frequent timeout failures and dropped metrics.</p>
+</li>
+<li>
+<p>The Compute/Storage Disconnect: To handle 30-day or 90-day retention queries, we had to scale up the entire global Prometheus instance&rsquo;s CPU and RAM just to support the storage footprint—even if query traffic was low.</p>
+</li>
+</ul>
+<h2 id="enter-grafana-mimir-moving-from-pull-to-push">Enter Grafana Mimir: Moving from Pull to Push</h2>
+<p>We needed an architecture that separated ingestion from querying and decoupled compute from long-term storage. After evaluating alternative tools like Thanos and Cortex, we selected Grafana Mimir because of its modular, cloud-native microservices layout. It also incorporated a lot of useful features of both Thanos and Cortex into a single package.</p>
+<h3 id="the-architectural-advantage">The Architectural Advantage</h3>
+<ul>
+<li>
+<p>Distributors &amp; Ingesters: Mimir separates incoming write traffic across lightweight worker pools. If write traffic spikes, we horizontally scale the distributors and when the traffic goes down we scale down the distributors to save cost.</p>
+</li>
+<li>
+<p>Pure Object Storage: Mimir compiles metric time-series blocks and dumps them directly into cheap, durable cloud object storage (like Google Cloud Storage or AWS S3). We swapped expensive block storage SSDs for virtually infinite, low-cost GCS buckets.</p>
+</li>
+<li>
+<p>Isolated Query Engines: When a user opens a Grafana dashboard, the request hits a dedicated Query Frontend microservice. Heavy historical queries can crunch data over weeks without ever interfering with or slowing down the real-time data ingestion path. We also added horizontal autoscaling to the query path so that users won&rsquo;t get starved for resources while a huge query is running.</p>
+</li>
+</ul>
+<h3 id="mimir-ingestion-architecture">Mimir Ingestion Architecture</h3>
+<p>Instead of a heavy central scraper pulling data, Mimir relies on a push model. We converted our edge Prometheus instances into lightweight Prometheus instance with much shorted retention. they immediately stream metrics out using the <code>remote_write</code> protocol.</p>
+<p>Only a short amount of repeatedly queried metrics needs to be kept in the ingesters for faster queries, the long term retention of metrics is handed off to cheaper cloud storage buckets. This allowed us to increase our retention for 90 days to 365 days without incuring a huge performance hit like you would in the legacy prometheus setup.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/mimir-migration/write-path.svg"
+        data-srcset="/images/mimir-migration/write-path.svg, /images/mimir-migration/write-path.svg 1.5x, /images/mimir-migration/write-path.svg 2x"
+        data-sizes="auto"
+        alt="/images/mimir-migration/write-path.svg"
+        title="Mimir Ingestion Architecture Diagram" /></p>
+<h3 id="mimir-query-architecture">Mimir Query Architecture</h3>
+<p>Instead of the same prometheus servers handling both the ingestion and querying of data on single machine, mimir lets you split the queries into multiple smaller <strong>shards</strong> which can be individually queried in parallel.</p>
+<p>The short term queries(until 24 hours) is handled by the <strong>ingester</strong> and any queries beyond that is handled by the <strong>store gateway</strong> component which can be scaled based on the usage. This allowed us to query the whole 365 days worth of metrics without a glitch.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/mimir-migration/read-path.svg"
+        data-srcset="/images/mimir-migration/read-path.svg, /images/mimir-migration/read-path.svg 1.5x, /images/mimir-migration/read-path.svg 2x"
+        data-sizes="auto"
+        alt="/images/mimir-migration/read-path.svg"
+        title="Mimir Query Architecture Diagram" /></p>
+<h2 id="infrastructure-as-code-migration-blueprint">infrastructure as Code: Migration Blueprint</h2>
+<p>Because our team operates strictly through GitOps, we wanted the entire Mimir topology, tenant definitions, and bucket configurations declared via <a href="https://docs.cloud.google.com/config-connector/docs/overview" target="_blank" rel="noopener noreffer ">Google Config Connector</a> and Helm Manifests.</p>
+<p>On the ingestion side, ie; edge prometheus servers on kubernetes clusters and GCP VMs, the <code>remote_write</code> paths were added to start sending the traffic to mimir once the endpoints were ready.</p>
+<h2 id="high-availability-concerns">High Availability Concerns</h2>
+<p>In every important production systems while deciding on a new tool, it&rsquo;s paramount to ensure the availability of the tool during outages. Since zonal outages are becoming more and more common, we had to take that into consideration while deciding on the deployment method of Mimir.</p>
+<p>Thankfully, mimir supports series sharding and replication out of the box, this was a huge win when compared to the previous setup. We managed to setup a production with 3 replicas across 3 zones in GCP.</p>
+<p>The included <strong>rollout-operator</strong> components that comes with the <a href="https://github.com/grafana/mimir/blob/main/operations/helm/charts/mimir-distributed/README.md" target="_blank" rel="noopener noreffer ">mimir helmchart</a> ensures that the deployment are rolled out in a way that it ensures highest availablility by doing deployments in one zone at a time.</p>
+<h2 id="lessons-learned--production-realities">Lessons Learned &amp; Production Realities</h2>
+<p>Migrating a core infrastructure component at scale always reveals a few surprises. If you are planning a similar migration, keep these two operational notes in mind:</p>
+<ul>
+<li>
+<p>Watch Your Churn Rate: Because Mimir tracks metrics globally, high-cardinality labels (like putting an explicit timestamp or unique UUID into a metric label) can cause Mimir&rsquo;s ingester memory to spike. Enforce strict metric relabeling rules at the agent level to drop garbage labels before they cross the wire.</p>
+</li>
+<li>
+<p>The Compactor is Critical: The Mimir Compactor component is responsible for deduplicating data blocks sent by multiple replicas. Ensure you assign sufficient CPU and disk space to your compactor nodes, or your query speeds will degrade over long time ranges.</p>
+</li>
+</ul>
+<h2 id="the-final-verdict">The Final Verdict</h2>
+<p>By shifting from Prometheus Federation to Grafana Mimir, we turned our global monitoring infrastructure from a brittle, scary monolith into an elastic system that behaves like any other stateless microservice app.</p>
+<p>Our metrics data costs dropped by over 60% due to object storage utilization, our dashboard query load times dropped significantly, and our infrastructure engineering team no longer gets paged in the middle of the night because a Prometheus disk filled up.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2026-06-15</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/mimir-migration/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmimir-migration%2f&amp;text=Scaling%20Metrics%20Past%20the%20Limits%20of%20Prometheus%20Federation%20with%20Mimir" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.163.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+</html>
