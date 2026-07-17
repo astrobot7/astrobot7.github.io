@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Scaling Metrics Past the Limits of Prometheus Federation with Mimir - Aswin&#39;s Personal Blog</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="http://localhost:1313/posts/mimir-migration/">
-	<meta property="og:site_name" content="Aswin&#39;s Personal Blog">
+        <title>Scaling Metrics Past the Limits of Prometheus Federation with Mimir - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://blog.aswinkm.dev/posts/mimir-migration/">
+	<meta property="og:site_name" content="Aswin | Cloud Infrastructure Engineer">
 	<meta property="og:title" content="Scaling Metrics Past the Limits of Prometheus Federation with Mimir">
 	<meta property="og:description" content="If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.
 Prometheus is phenomenal for single-cluster monitoring. However, scaling it across dozens of regions and clusters using traditional Prometheus Federation eventually hits a hard wall.
@@ -25,9 +25,9 @@ This post details why we abandoned our federated pull architecture and migrated 
 <meta name="apple-mobile-web-app-title" content="My cool site">
 <meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/mimir-migration/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.aswinkm.dev/posts/mimir-migration/" /><link rel="next" href="https://blog.aswinkm.dev/posts/localstack-to-floci/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -35,9 +35,9 @@ This post details why we abandoned our federated pull architecture and migrated 
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/localhost:1313\/posts\/mimir-migration\/"
+            "@id": "https:\/\/blog.aswinkm.dev\/posts\/mimir-migration\/"
         },"genre": "posts","wordcount":  1041 ,
-        "url": "http:\/\/localhost:1313\/posts\/mimir-migration\/","datePublished": "2026-06-15T18:35:44+05:30","dateModified": "2026-06-15T18:35:44+05:30","publisher": {
+        "url": "https:\/\/blog.aswinkm.dev\/posts\/mimir-migration\/","datePublished": "2026-06-15T18:35:44+05:30","dateModified": "2026-06-15T18:35:44+05:30","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -61,10 +61,10 @@ This post details why we abandoned our federated pull architecture and migrated 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Aswin&#39;s Personal Blog">My cool site</a>
+            <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust" aria-hidden="true"></i>
                 </a></div>
         </div>
@@ -73,13 +73,13 @@ This post details why we abandoned our federated pull architecture and migrated 
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Aswin&#39;s Personal Blog">My cool site</a>
+                <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust" aria-hidden="true"></i>
             </a></div>
     </div>
@@ -202,7 +202,7 @@ This post details why we abandoned our federated pull architecture and migrated 
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/mimir-migration/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmimir-migration%2f&amp;text=Scaling%20Metrics%20Past%20the%20Limits%20of%20Prometheus%20Federation%20with%20Mimir" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://blog.aswinkm.dev/posts/mimir-migration/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="https://blog.aswinkm.dev/posts/mimir-migration/" data-title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=https%3a%2f%2fblog.aswinkm.dev%2fposts%2fmimir-migration%2f&amp;text=Scaling%20Metrics%20Past%20the%20Limits%20of%20Prometheus%20Federation%20with%20Mimir" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -214,7 +214,8 @@ This post details why we abandoned our federated pull architecture and migrated 
         </section>
     </div>
 
-    <div class="post-nav"></div>
+    <div class="post-nav">
+            <a href="/posts/localstack-to-floci/" class="next" rel="next" title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?">Why I Dumped LocalStack for Floci: Am I just saving a quick buck?<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
@@ -231,5 +232,5 @@ This post details why we abandoned our federated pull architecture and migrated 
         <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment" aria-hidden="true"></i>
             </a>
-        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
 </html>

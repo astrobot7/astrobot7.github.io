@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Why I Dumped LocalStack for Floci: Am I just saving a quick buck? - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://blog.aswinkm.dev/posts/localstack-to-floci/">
+	<meta property="og:site_name" content="Aswin | Cloud Infrastructure Engineer">
+	<meta property="og:title" content="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?">
+	<meta property="og:description" content="As an infrastructure engineer who has mainly worked on Google Cloud Platform on a professional level, It was important to me to be able to be cloud agnostic and have relevant experience with other cloud providers. Amazon Web Services being the biggest player out in the game, Initially, I tried to get my hands dirty with the free-tier provided by AWS. Alas, I ran into resource restrictions and paywalls as soon as I started playing around with it.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-17T19:25:23+05:30">
+		<meta property="article:modified_time" content="2026-07-17T19:25:23+05:30">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?">
+	<meta name="twitter:description" content="As an infrastructure engineer who has mainly worked on Google Cloud Platform on a professional level, It was important to me to be able to be cloud agnostic and have relevant experience with other cloud providers. Amazon Web Services being the biggest player out in the game, Initially, I tried to get my hands dirty with the free-tier provided by AWS. Alas, I ran into resource restrictions and paywalls as soon as I started playing around with it.">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.aswinkm.dev/posts/localstack-to-floci/" /><link rel="prev" href="https://blog.aswinkm.dev/posts/mimir-migration/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Why I Dumped LocalStack for Floci: Am I just saving a quick buck?",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.aswinkm.dev\/posts\/localstack-to-floci\/"
+        },"genre": "posts","wordcount":  867 ,
+        "url": "https:\/\/blog.aswinkm.dev\/posts\/localstack-to-floci\/","datePublished": "2026-07-17T19:25:23+05:30","dateModified": "2026-07-17T19:25:23+05:30","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Aswin KM"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'auto';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Why I Dumped LocalStack for Floci: Am I just saving a quick buck?</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2026-07-17">2026-07-17</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;867 words&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#localstack-and-good-old-days">LocalStack and good old days</a></li>
+    <li><a href="#what-went-wrong">What went wrong?</a></li>
+    <li><a href="#enter-floci">Enter Floci</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>As an infrastructure engineer who has mainly worked on Google Cloud Platform on a professional level, It was important to me to be able to be cloud agnostic and have relevant experience with other cloud providers. Amazon Web Services being the biggest player out in the game, Initially, I tried to get my hands dirty with the free-tier provided by AWS. Alas, I ran into resource restrictions and paywalls as soon as I started playing around with it.</p>
+<p>As an engineer, my initial though was that I don&rsquo;t need an entire enterprise level production system to verify if my Terraform syntax was sound of if my modules are wired correctly. As engineers, our default state when faced with this kind of environment friction is to step back and analyze the protocol. I realized that at the end of the day, an AWS SDK, CLI tool, or IaC binary is just making standard HTTP API calls to an endpoint.</p>
+<p>As much as I would like to build an emulator from scratch, I decided to keep it simple and see if there is an emulator out there which provides me with the basic functionalies I need. If it supports docker for emulating some services, or has a plugin system then it would be a match made in heaven.</p>
+<p>Enter LocalStack.</p>
+<h2 id="localstack-and-good-old-days">LocalStack and good old days</h2>
+<p>Discovering LocalStack and running <code>docker compose up</code> and firing aws-cli commands felt like a cheatcode for cloud engineers. LocalStack supported majority of aws services that I wanted to experiment with. LocalStack acted as a perfect black box for the AWS api control plane. It exposed the exact wire protocols and endpoints as the standard aws-cli, SDKs and terraform provider expected.</p>
+<p>I could setup the terraform provider as simple as the following once LocalStack is up and running.</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-hcl">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-hcl" data-lang="hcl"><span class="line"><span class="cl"><span class="k">provider</span> <span class="s2">&#34;aws&#34;</span> {
+</span></span><span class="line"><span class="cl"><span class="n">  region</span>                      <span class="o">=</span> <span class="s2">&#34;us-east-1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">  access_key</span>                  <span class="o">=</span> <span class="s2">&#34;mock_key&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">  secret_key</span>                  <span class="o">=</span> <span class="s2">&#34;mock_secret&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">  skip_credentials_validation</span> <span class="o">=</span> <span class="kt">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">  skip_metadata_api_check</span>     <span class="o">=</span> <span class="kt">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">  skip_requesting_account_id</span>  <span class="o">=</span> <span class="kt">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">endpoints</span> {
+</span></span><span class="line"><span class="cl"><span class="n">    s3</span>       <span class="o">=</span> <span class="s2">&#34;http://localhost:4566&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">    dynamodb</span> <span class="o">=</span> <span class="s2">&#34;http://localhost:4566&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">    lambda</span>   <span class="o">=</span> <span class="s2">&#34;http://localhost:4566&#34;</span>
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></div></div>
+<p>This allowed me to build my own terraform modules, test existing terraform modules and debug like I would do in an actual cloud setup. I could run <code>terraform apply</code> and watch LocalStack spin up a mock infrastructure all without leaving my laptop. I could easily tear-down the entire infrastructure by a simple <code>docker compose down</code> command. It allowed me to aggressively experiment, break things, and intentionally introduce misconfigurations—such as malformed IAM policies or bad DynamoDB global secondary indexes (GSIs)—just to see how the API responded.</p>
+<p>An additional feature that LocalStack provided was the ability to run workloads like AWS Lambda be leveraging Docker under the hood to handle execution. This elevated the relevance of the tool from being a static mockserver to a very usable cloud emulator.</p>
+<p>When my code triggered a Lambda function, LocalStack orchestrated a runtime container, passed the event payload, and returned the execution logs.</p>
+<h2 id="what-went-wrong">What went wrong?</h2>
+<p>For a long time, the LocalStack workflow felt like it could never be replaced. But as my infrastructure grew more complex and integrated into automated testing pipelines, the cracks in the developer experience began to widen.</p>
+<p>I started noticing the high resource utilization by the python process. It was negligible when I was running it locally, but when I started to incorporate it with my Github Actions pipelines, It became a pain-point since LocalStack, at the end of the day is a massive python runtime with size of ~1GB. Pulling and running the container would waste precious github actions runtime.</p>
+<p>Then came the operational feature gates. As I moved beyond simple S3 buckets into higher-fidelity infrastructure testing, I hit LocalStack’s commercial wall. Crucial capabilities for an infrastructure engineer—like advanced persistence, snapshotting state, or running specific multi-account architectures—were locked behind their proprietary Pro and Enterprise tiers.</p>
+<p>But the definitive breaking point arrived in March 2026.</p>
+<p>LocalStack announced a foundational shift in its distribution model. They officially consolidated their images into a single, unified container that strictly requires an account registration and a mandatory LOCALSTACK_AUTH_TOKEN to pull or run—even for the free tier, and even inside CI pipelines.</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Error: LocalStack container failed to initialize. 
+Missing required environment variable: LOCALSTACK_AUTH_TOKEN</code></pre></div>
+<p>This felt like deja-vu, I started using LocalStack to escape the public cloud paywalls, , rigid resource gatekeeping, and the friction of API keys and credential management. Suddenly, my local emulation layer was demanding the exact same compliance overhead.</p>
+<h2 id="enter-floci">Enter Floci</h2>
+<p>I started looking for alternatives to LocalStack, I was purusing through the underbelly of Reddit when Floci caught my eyes. I didn&rsquo;t want just another fork of LocalStack, I wanted something that was less resource hungry and light enough to run in my Github Actions.</p>
+<p><a href="https://floci.io/floci" target="_blank" rel="noopener noreffer ">Floci</a> is a lightweight drop-in replacement for LocalStack running via the same port be default. This means, I can just swap it into my existing terraform configurations or application code without a single line of code change.</p>
+<p>LocalStack’s heavy memory footprint and multi-second startup lag are largely a byproduct of its runtime environment. Floci throws out that traditional playbook by leveraging a highly modern, cloud-native stack: Quarkus and GraalVM Native Image.</p>
+<p>I&rsquo;ll talk more about Floci architecture and how I&rsquo;m using floci in actual development setup in future posts.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2026-07-17</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="https://blog.aswinkm.dev/posts/localstack-to-floci/" data-title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=https%3a%2f%2fblog.aswinkm.dev%2fposts%2flocalstack-to-floci%2f&amp;text=Why%20I%20Dumped%20LocalStack%20for%20Floci%3a%20Am%20I%20just%20saving%20a%20quick%20buck%3f" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/mimir-migration/" class="prev" rel="prev" title="Scaling Metrics Past the Limits of Prometheus Federation with Mimir"><i class="fas fa-angle-left" aria-hidden="true"></i>Scaling Metrics Past the Limits of Prometheus Federation with Mimir</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.163.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+</html>

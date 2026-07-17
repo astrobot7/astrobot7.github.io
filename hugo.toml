@@ -1,4 +1,29 @@
 baseURL = 'https://blog.aswinkm.dev/'
 locale = 'en-us'
-title = "Aswin's Personal Blog"
 theme = 'loveit'
+title = "Aswin | Cloud Infrastructure Engineer"
+description = "Aswin | Cloud Infrastructure Engineer"
+
+[params]
+  [params.home.profile]
+    enable = true
+    avatarURL = "/images/profile.jpg"
+    title = "Aswin | Cloud Infrastructure Engineer"
+    subtitle = "Helping companies scale on GCP and Kubernetes."
+  
+	[params.social]
+		LinkedIn = "aswin-km"
+		Github = "astrobot7"
+		Email = "dev.aswinkm@gmail.com"
+  # Professional navigation
+  [menu]
+    [[menu.main]]
+      identifier = "posts"
+      name = "Case Studies" # 'Posts' sounds like a hobby; 'Case Studies' sounds like business
+      url = "/posts/"
+      weight = 1
+    [[menu.main]]
+      identifier = "about"
+      name = "About & Resume"
+      url = "/about/"
+      weight = 2
