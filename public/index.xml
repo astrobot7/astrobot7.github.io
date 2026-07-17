@@ -1,11 +1,19 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Aswin&#39;s Personal Blog</title>
+        <title>Aswin | Cloud Infrastructure Engineer</title>
         <link>https://blog.aswinkm.dev/</link>
         <description>This is my cool site</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 15 Jun 2026 18:35:44 &#43;0530</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 17 Jul 2026 19:25:23 &#43;0530</lastBuildDate>
             <atom:link href="https://blog.aswinkm.dev/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Why I Dumped LocalStack for Floci: Am I just saving a quick buck?</title>
+    <link>https://blog.aswinkm.dev/posts/localstack-to-floci/</link>
+    <pubDate>Fri, 17 Jul 2026 19:25:23 &#43;0530</pubDate>
+    <author>xxxx</author>
+    <guid>https://blog.aswinkm.dev/posts/localstack-to-floci/</guid>
+    <description><![CDATA[<p>As an infrastructure engineer who has mainly worked on Google Cloud Platform on a professional level, It was important to me to be able to be cloud agnostic and have relevant experience with other cloud providers. Amazon Web Services being the biggest player out in the game, Initially, I tried to get my hands dirty with the free-tier provided by AWS. Alas, I ran into resource restrictions and paywalls as soon as I started playing around with it.</p>]]></description>
+</item>
+<item>
     <title>Scaling Metrics Past the Limits of Prometheus Federation with Mimir</title>
     <link>https://blog.aswinkm.dev/posts/mimir-migration/</link>
     <pubDate>Mon, 15 Jun 2026 18:35:44 &#43;0530</pubDate>
