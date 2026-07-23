@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/">
+	<meta property="og:site_name" content="Aswin | Cloud Infrastructure Engineer">
+	<meta property="og:title" content="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes">
+	<meta property="og:description" content="If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.
+And that’s precisely the problem.
+Managed Kubernetes services and abstraction tools handle the heavy lifting: generating TLS certificates, configuring systemd service files, bootstrapping etcd consensus groups, and setting up Pod network routing behind the scenes. While this developer experience is incredible for day-to-day productivity, it creates a massive knowledge gap. When a worker node drops off the grid, an API server refuses to authorize requests, or a service fails to route traffic, abstract tools won’t help you debug what’s happening under the hood.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-23T17:18:05+05:30">
+		<meta property="article:modified_time" content="2026-07-23T17:18:05+05:30">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes">
+	<meta name="twitter:description" content="If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.
+And that’s precisely the problem.
+Managed Kubernetes services and abstraction tools handle the heavy lifting: generating TLS certificates, configuring systemd service files, bootstrapping etcd consensus groups, and setting up Pod network routing behind the scenes. While this developer experience is incredible for day-to-day productivity, it creates a massive knowledge gap. When a worker node drops off the grid, an API server refuses to authorize requests, or a service fails to route traffic, abstract tools won’t help you debug what’s happening under the hood.">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" /><link rel="prev" href="http://localhost:1313/posts/localstack-to-floci/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me About Networking and Control Planes",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/kubernetes-the-hard-way-vagrant\/"
+        },"genre": "posts","wordcount":  1971 ,
+        "url": "http:\/\/localhost:1313\/posts\/kubernetes-the-hard-way-vagrant\/","datePublished": "2026-07-23T17:18:05+05:30","dateModified": "2026-07-23T17:18:05+05:30","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Aswin KM"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'auto';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Aswin | Cloud Infrastructure Engineer">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me About Networking and Control Planes</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2026-07-23">2026-07-23</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;1971 words&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-kthw">Why KTHW?</a></li>
+    <li><a href="#why-bring-it-down-to-vagrant">Why Bring It Down to Vagrant?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#step-1-verify-hardware-virtualization">Step 1: Verify Hardware Virtualization</a></li>
+    <li><a href="#step-2-install-kvm-qemu-and-libvirt">Step 2: Install KVM, QEMU, and Libvirt</a></li>
+    <li><a href="#step-3-configure-user-permissions">Step 3: Configure User Permissions</a></li>
+    <li><a href="#step-4-install-vagrant--the-vagrant-libvirt-provider">Step 4: Install Vagrant &amp; the vagrant-libvirt Provider</a></li>
+    <li><a href="#step-5-quick-sanity-check">Step 5: Quick Sanity Check</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#the-host-staging-pattern">The Host-Staging Pattern</a></li>
+    <li><a href="#cluster-topology--ip-assignment">Cluster Topology &amp; IP Assignment</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#phase-1-end-to-end-cluster-provisioning-with-setupsh">Phase 1: End-to-End Cluster Provisioning with setup.sh</a></li>
+    <li><a href="#validating-cluster-health-with-smoke-testsh">Validating Cluster Health with smoke-test.sh</a></li>
+    <li><a href="#cleanup">Cleanup</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.</p>
+<p>And that’s precisely the problem.</p>
+<p>Managed Kubernetes services and abstraction tools handle the heavy lifting: generating TLS certificates, configuring systemd service files, bootstrapping etcd consensus groups, and setting up Pod network routing behind the scenes. While this developer experience is incredible for day-to-day productivity, it creates a massive knowledge gap. When a worker node drops off the grid, an API server refuses to authorize requests, or a service fails to route traffic, abstract tools won&rsquo;t help you debug what&rsquo;s happening under the hood.</p>
+<p>To bridge this gap, Kelsey Hightower created the legendary guide Kubernetes The Hard Way (KTHW).</p>
+<h2 id="why-kthw">Why KTHW?</h2>
+<p>The premise of Kubernetes The Hard Way is simple: no automated scripts, no kubeadm, no cloud provider shortcuts. You manually provision every binary, write every config file by hand, generate every certificate authority, and wire together every networking route from scratch.</p>
+<p>By doing it manually, you realize that Kubernetes isn&rsquo;t a monolithic magic engine—it is simply a collection of small, independent Go binaries talking to each other over HTTP/TLS interfaces.</p>
+<h2 id="why-bring-it-down-to-vagrant">Why Bring It Down to Vagrant?</h2>
+<p>Kelsey’s original guide relies heavily on Google Cloud Platform (GCP) to handle compute instances, static public IPs, and cloud routes. While GCP is great, setting it up locally using Vagrant and virtualized infrastructure adds a whole new dimension to the challenge:</p>
+<ul>
+<li>
+<p>Zero Cloud Costs: You can tear down, break, and rebuild the cluster a hundred times on your local machine without incurring cloud billing surprises.</p>
+</li>
+<li>
+<p>True Bare-Metal Feeling: You deal directly with hypervisor interfaces, private network adapters (host-only), local IP routing tables, and real-world network constraints.</p>
+</li>
+<li>
+<p>Hyper-Focus on Networking: In a cloud environment, virtual networks handle subnet routing automatically. With Vagrant, you have to explicitly manage multi-NIC network bindings, Pod CIDR routes, and local DNS resolution yourself.</p>
+</li>
+</ul>
+<p>In this post, I’ll walk you through my journey of adapting Kubernetes The Hard Way to a local Vagrant environment, the architecture I settled on, the critical &ldquo;Aha!&rdquo; moments along the way, and—most importantly—the painful edge cases and networking trapdoors that almost drove me crazy.</p>
+<h1 id="local-hypervisor-setup">Local Hypervisor Setup</h1>
+<p>Before writing a Vagrantfile or downloading Kubernetes binaries, you need a local hypervisor that can comfortably spin up multiple lightweight VMs.While VirtualBox is the default provider for Vagrant, KVM (Kernel-based Virtual Machine) combined with libvirt is the gold standard for running Linux-on-Linux labs.</p>
+<p>Because KVM runs directly inside the Linux kernel, VM overhead is minimal, RAM footprint is reduced, and network throughput between virtual machines is significantly faster.</p>
+<h2 id="step-1-verify-hardware-virtualization">Step 1: Verify Hardware Virtualization</h2>
+<p>First, ensure your CPU supports hardware virtualization extensions (Intel VT-x or AMD-V):</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -c <span class="s1">&#39;(vmx|svm)&#39;</span> /proc/cpuinfo</span></span></code></pre></div></div>
+<p>Note: If this command outputs 0, you need to enable Virtualization Technology (VT-x/AMD-V) in your host machine’s BIOS/UEFI.</p>
+<h2 id="step-2-install-kvm-qemu-and-libvirt">Step 2: Install KVM, QEMU, and Libvirt</h2>
+<p>Install the core virtualization packages and network bridges for your Linux distribution:
+Ubuntu / Debian:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager libvirt-dev</span></span></code></pre></div></div>
+<p>Fedora / RHEL:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dnf install -y @virtualization libvirt-devel</span></span></code></pre></div></div>
+<p>Next, enable and start the libvirtd service:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> --now libvirtd</span></span></code></pre></div></div>
+<h2 id="step-3-configure-user-permissions">Step 3: Configure User Permissions</h2>
+<p>By default, running virsh or managing libvirt requires root privileges. Add your local user to the libvirt and kvm groups so Vagrant can manage VMs without needing sudo every time:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo usermod -aG libvirt,kvm <span class="nv">$USER</span>
+</span></span><span class="line"><span class="cl">newgrp libvirt</span></span></code></pre></div></div>
+<p>Verify your setup by checking if</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh list --all</span></span></code></pre></div></div>
+<p>executes without permission errors.</p>
+<h2 id="step-4-install-vagrant--the-vagrant-libvirt-provider">Step 4: Install Vagrant &amp; the vagrant-libvirt Provider</h2>
+<blockquote>
+<p>It’s best to download official Vagrant releases directly from HashiCorp rather than distro package managers to ensure compatibility.</p>
+</blockquote>
+<p>Once Vagrant is installed, install the vagrant-libvirt plugin:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Install the plugin</span>
+</span></span><span class="line"><span class="cl">vagrant plugin install vagrant-libvirt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set libvirt as your default Vagrant provider globally</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">VAGRANT_DEFAULT_PROVIDER</span><span class="o">=</span>libvirt</span></span></code></pre></div></div>
+<h2 id="step-5-quick-sanity-check">Step 5: Quick Sanity Check</h2>
+<p>Before jumping into a multi-node Kubernetes cluster, run a quick sanity test to verify Vagrant can pull a libvirt box, spin it up, and SSH into it:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir ~/vagrant-test <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/vagrant-test
+</span></span><span class="line"><span class="cl">vagrant init debian/bookworm64
+</span></span><span class="line"><span class="cl">vagrant up
+</span></span><span class="line"><span class="cl">vagrant ssh</span></span></code></pre></div></div>
+<p>If you drop straight into a shell inside your Debian VM, your local hypervisor stack is fully operational!</p>
+<p>Tear it down with</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vagrant destroy -f</span></span></code></pre></div></div>
+<p>and you&rsquo;re ready to write the Vagrantfile.</p>
+<h1 id="designing-the-cluster-infrastructure-with-vagrant">Designing the Cluster Infrastructure with Vagrant</h1>
+<p>With KVM/libvirt operational, the next step is defining our cluster topology.</p>
+<p>In cloud setups, provisioning scripts usually run curl commands inside each VM to fetch Kubernetes binaries and static configuration files. However, downloading heavy binaries across three virtual machines every time you re-provision is slow and prone to network timeouts.</p>
+<h2 id="the-host-staging-pattern">The Host-Staging Pattern</h2>
+<p>To keep local iterations lightning fast, my setup in <a href="https://github.com/astrobot7/k8s-the-hardway" target="_blank" rel="noopener noreffer ">astrobot7/k8s-the-hardway</a> uses a host-side pre-staging strategy:</p>
+<p>Download all required binaries (etcd, kube-apiserver, containerd, CNI plugins, etc.) once onto the host machine into a ./downloads folder.</p>
+<p>Generate all TLS certificates and kubeconfig files locally into ./config (see the config/ structure in the repo).</p>
+<p>Use Vagrant&rsquo;s file provisioner to inject these pre-computed assets directly into /tmp inside each VM during boot.</p>
+<p>Use shell inline provisioners to move binaries into /usr/local/bin, write /etc/hosts entries, configure systemd units, and launch services.</p>
+<h2 id="cluster-topology--ip-assignment">Cluster Topology &amp; IP Assignment</h2>
+<p>The cluster uses a 1 control plane server + 2 worker nodes architecture attached to a dedicated private network (10.200.0.0/24):</p>
+<table>
+	<thead>
+			<tr>
+					<th>Node Name</th>
+					<th>Role</th>
+					<th>IP Address</th>
+					<th>RAM</th>
+					<th>vCPUs</th>
+					<th>Key Components</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>server</td>
+					<td>Control Plane</td>
+					<td>10.200.0.10</td>
+					<td>1024 MB</td>
+					<td>1</td>
+					<td>etcd, kube-apiserver, kube-controller-manager, kube-scheduler</td>
+			</tr>
+			<tr>
+					<td>node-0</td>
+					<td>Worker 0</td>
+					<td>10.200.0.11</td>
+					<td>1024 MB</td>
+					<td>1</td>
+					<td>containerd, kubelet, kube-proxy, CNI Plugins</td>
+			</tr>
+			<tr>
+					<td>node-1</td>
+					<td>Worker 1</td>
+					<td>10.200.0.12</td>
+					<td>1024 MB</td>
+					<td>1</td>
+					<td>containerd, kubelet, kube-proxy, CNI Plugins</td>
+			</tr>
+	</tbody>
+</table>
+<p>The complete vagrant file is available in the <a href="https://github.com/astrobot7/k8s-the-hardway/blob/main/vagrant/Vagrantfile" target="_blank" rel="noopener noreffer ">repository</a></p>
+<h1 id="automating-the-lifecycle-staging-and-smoke-testing">Automating the Lifecycle: Staging and Smoke Testing</h1>
+<p>While the Vagrantfile handles VM creation and service orchestration, managing host-side assets and verifying cluster health manually can quickly become tedious. To make the entire process repeatable, two shell scripts serve as the primary workflow entry points: setup.sh and smoke-test.sh.</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>                      +-------------------+
+                      |     setup.sh      |
+                      +---------+---------+
+                                |
+             1. Downloads binaries &amp; CNI plugins
+             2. Generates CA, TLS Certs &amp; SAN IPs
+             3. Creates Kubeconfigs &amp; Encryption keys
+             4. Provisions Server &amp; Worker VMs
+                                |
+                                v
+                      +---------------------+
+                      |   Virtual Machines  |
+                      |  (server, node-0/1) |
+                      +---------+-----------+
+                                |
+             5. Starts etcd, Control Plane, Containerd
+                                |
+                                v
+                      +-------------------+
+                      |   smoke-test.sh   |
+                      +-------------------+
+             6. Validates Data Encryption at Rest
+             7. Deploys Test Pods &amp; Verifies Logs
+             8. Tests Node-to-Node Pod Networking</code></pre></div>
+<h2 id="phase-1-end-to-end-cluster-provisioning-with-setupsh">Phase 1: End-to-End Cluster Provisioning with setup.sh</h2>
+<p>Instead of making you manually generate certificates, download multi-megabyte binaries, and manually trigger vagrant up, running setup.sh handles the entire bootstrapping process from a single command:</p>
+<ul>
+<li>
+<p>Downloads Dependencies: Pulls official static binaries for etcd, kube-apiserver, kube-controller-manager, kube-scheduler, kubelet, kube-proxy, containerd, runc, and core CNI plugins directly into ./downloads.</p>
+</li>
+<li>
+<p>Generates Public Key Infrastructure (PKI): Uses cfssl to generate the Certificate Authority (CA) and issues signed TLS certificates for all control plane components, admin clients, and worker nodes.</p>
+</li>
+<li>
+<p>Builds Kubeconfigs: Embeds the generated TLS certificates directly into .kubeconfig files for kube-controller-manager, kube-scheduler, kube-proxy, and worker nodes (node-0, node-1).</p>
+</li>
+<li>
+<p>Generates Encryption Config: Creates an encryption-config.yaml with a random secret key for encrypting secrets at rest in etcd.</p>
+</li>
+<li>
+<p>Launches the VMs (vagrant up): As its final step, setup.sh automatically invokes vagrant up, passing the pre-staged binaries, certificates, and systemd units into the libvirt hypervisor to boot the cluster.</p>
+</li>
+</ul>
+<p>To get a full Kubernetes cluster built entirely from source on your local machine, all it takes is:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./setup.sh</span></span></code></pre></div></div>
+<h2 id="validating-cluster-health-with-smoke-testsh">Validating Cluster Health with smoke-test.sh</h2>
+<p>Once setup.sh finishes bringing up the VMs and systemd services are running, running smoke-test.sh executes a series of automated end-to-end checks against the live cluster:</p>
+<ol>
+<li>Secret Encryption at Rest Verification</li>
+</ol>
+<p>The script creates a test secret and inspects the raw key inside etcd over SSH to confirm it is stored encrypted rather than plain text:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create a test secret</span>
+</span></span><span class="line"><span class="cl">kubectl create secret generic kubernetes-the-hard-way <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --from-literal<span class="o">=</span><span class="s2">&#34;mykey=mydata&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Verify etcd stores it encrypted (prefixed with k8s:enc:aescbc:v1)</span>
+</span></span><span class="line"><span class="cl">vagrant ssh server -- sudo etcdctl get /registry/secrets/default/kubernetes-the-hard-way</span></span></code></pre></div></div>
+<ol start="2">
+<li>Pod Lifecycle &amp; Workload Scheduling</li>
+</ol>
+<p>It spins up an Nginx deployment, verifies that kube-scheduler places pods onto worker nodes, and validates container execution via kubectl exec:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create deployment nginx --image<span class="o">=</span>nginx 
+</span></span><span class="line"><span class="cl">kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l <span class="nv">app</span><span class="o">=</span>nginx</span></span></code></pre></div></div>
+<ol start="3">
+<li>Pod Networking
+It creates a port-forward to the pod and verifies it is working by making a curl request:</li>
+</ol>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">POD_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl get pods -l <span class="nv">app</span><span class="o">=</span>nginx <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&#34;{.items[0].metadata.name}&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubectl port-forward <span class="nv">$POD_NAME</span> 8080:80 2&gt;/dev/null 1&gt;/dev/null <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl --head http://127.0.0.1:8080</span></span></code></pre></div></div>
+<p>The output looks something like:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>HTTP/1.1 200 OK
+Server: nginx/1.31.3
+Date: Thu, 23 Jul 2026 12:30:42 GMT
+Content-Type: text/html
+Content-Length: 896
+Last-Modified: Wed, 15 Jul 2026 16:03:14 GMT
+Connection: keep-alive
+ETag: &#34;6a57af42-380&#34;
+Accept-Ranges: bytes</code></pre></div>
+<p>Finally it tries to expose a NodePort and make a curl request:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>kubectl expose deployment nginx \
+  --port 80 --type NodePort
+
+NODE_PORT=$(kubectl get svc nginx \
+  --output=jsonpath=&#39;{range .spec.ports[0]}{.nodePort}&#39;)
+
+NODE_NAME=$(kubectl get pods \
+  -l app=nginx \
+  -o jsonpath=&#34;{.items[0].spec.nodeName}&#34;)
+
+curl -I http://${NODE_NAME}:${NODE_PORT}</code></pre></div>
+<p>The output looks something like:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>service/nginx exposed
+HTTP/1.1 200 OK
+Server: nginx/1.31.3
+Date: Thu, 23 Jul 2026 12:31:31 GMT
+Content-Type: text/html
+Content-Length: 896
+Last-Modified: Wed, 15 Jul 2026 16:03:14 GMT
+Connection: keep-alive
+ETag: &#34;6a57af42-380&#34;
+Accept-Ranges: bytes</code></pre></div>
+<h2 id="cleanup">Cleanup</h2>
+<p>To cleanup the entire setup just run the following</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> vagrant
+</span></span><span class="line"><span class="cl">vagrant destroy -f</span></span></code></pre></div></div>
+<h1 id="lessons-learned--key-takeaways">Lessons Learned &amp; Key Takeaways</h1>
+<p>Running through Kubernetes The Hard Way—especially adapted to run locally on Vagrant—demystifies the abstractions that tools like kubeadm, minikube, and managed cloud offerings (EKS/GKE) provide.</p>
+<p>Here are the biggest technical takeaways from building the cluster from scratch:</p>
+<ol>
+<li>kubectl is Just an HTTP Client</li>
+</ol>
+<p>There is no hidden magic inside kubectl. It is simply a CLI wrapper that reads your local .kubeconfig file, extracts the embedded client certificate and private key, and sends HTTP/2 JSON payloads to the kube-apiserver endpoint (in our case, <a href="https://server.kubernetes.local:6443" target="_blank" rel="noopener noreffer ">https://server.kubernetes.local:6443</a>). Every single command you run is just an authenticated REST API call.</p>
+<ol start="2">
+<li>Control Plane Components are Isolated Go Binaries</li>
+</ol>
+<p>Before doing KTHW, it’s easy to imagine Kubernetes as a giant monolithic engine. In reality, kube-apiserver, kube-controller-manager, and kube-scheduler are completely independent Go binaries. They don&rsquo;t even talk to each other directly—kube-apiserver acts as the single central hub connected to etcd, while the controller-manager and scheduler continuously poll the API server to watch state changes and execute control loops.
+3. TLS is the Backbone of K8s Security</p>
+<p>Every component in Kubernetes—from kubelet reporting node status, to kube-proxy reading service endpoints, to etcd maintaining quorum—requires its own TLS client/server certificate pair.</p>
+<blockquote>
+<p>The Vagrant Gotcha: Forgetting to explicitly add local node IP addresses (10.200.0.10, 10.200.0.11, etc.) and setting up Subject Alternative Names (SANs) of your certificates with hostnames will break TLS handshakes immediately.</p>
+</blockquote>
+<ol start="4">
+<li>Pod IPs Are Virtual Magic</li>
+</ol>
+<p>Service IPs (10.32.0.0/24) don&rsquo;t actually exist on physical network interfaces or virtual network adapters. They are virtual IP address rules managed by kube-proxy via iptables or IPVS kernel parameters. Meanwhile, Pod-to-Pod cross-node traffic depends on the br-netfilter kernel module (net.bridge.bridge-nf-call-iptables = 1) to route bridged traffic through netfilter rules correctly.</p>
+<h1 id="conclusion--wrap-up">Conclusion &amp; Wrap Up</h1>
+<p>Building a bare-metal Kubernetes cluster on local VMs using Vagrant, libvirt, and KVM was one of the most rewarding engineering exercises I&rsquo;ve completed. It transforms Kubernetes from a &ldquo;black box&rdquo; into a set of understandable, debuggable Linux processes.</p>
+<p>When managed control planes break or local developmental networking behaves strangely, I no longer have to guess what&rsquo;s going wrong—I know exactly which systemd service, CNI config, or TLS cert to inspect.</p>
+<p>Try It Yourself!</p>
+<p>If you want to spin up this exact setup on your own Linux host machine without spending a dime on cloud providers, check out the complete code, configuration files, and automation scripts in my GitHub repository:</p>
+<p><strong>GitHub Repository: astrobot7/k8s-the-hardway</strong></p>
+<p>All it takes is cloning the repo and executing:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./setup.sh      <span class="c1"># Downloads binaries, builds PKI, and boots VMs</span>
+</span></span><span class="line"><span class="cl">./smoke-test.sh <span class="c1"># Verifies encryption at rest &amp; pod networking</span></span></span></code></pre></div></div>
+<p>Happy hacking!</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2026-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" data-title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fkubernetes-the-hard-way-vagrant%2f&amp;text=Under%20the%20Hood%20of%20K8s%3a%20What%20Kubernetes%20The%20Hard%20Way%20%2b%20Vagrant%20Taught%20Me%20About%20Networking%20and%20Control%20Planes" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/localstack-to-floci/" class="prev" rel="prev" title="Why I Dumped LocalStack for Floci: Am I just saving a quick buck?"><i class="fas fa-angle-left" aria-hidden="true"></i>Why I Dumped LocalStack for Floci: Am I just saving a quick buck?</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.163.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+</html>
