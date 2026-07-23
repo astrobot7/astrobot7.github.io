@@ -5,6 +5,15 @@ title = "Aswin | Cloud Infrastructure Engineer"
 description = "Aswin | Cloud Infrastructure Engineer"
 
 [params]
+  title = 'aswinkm.dev'
+	description = 'Personal blog of Aswin KM — cloud infrastructure, GCP, and Kubernetes.'
+
+  [params.header.title]
+    name = 'aswinkm.dev'
+
+  [params.app]
+    title = 'aswinkm.dev'
+
   [params.home.profile]
     enable = true
     avatarURL = "/images/profile.jpg"
@@ -27,3 +36,4 @@ description = "Aswin | Cloud Infrastructure Engineer"
       name = "About & Resume"
       url = "/about/"
       weight = 2
+
