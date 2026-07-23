@@ -1,6 +1,6 @@
 +++
 date = '2026-07-23T17:18:05+05:30'
-draft = true
+draft = false
 title = 'Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me About Networking and Control Planes'
 author = 'Aswin KM'
 +++
