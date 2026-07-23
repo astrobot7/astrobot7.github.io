@@ -3,7 +3,17 @@
         <title>All Posts - Aswin | Cloud Infrastructure Engineer</title>
         <link>https://blog.aswinkm.dev/posts/</link>
         <description>All Posts | Aswin | Cloud Infrastructure Engineer</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 17 Jul 2026 19:25:23 &#43;0530</lastBuildDate><atom:link href="https://blog.aswinkm.dev/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 23 Jul 2026 17:18:05 &#43;0530</lastBuildDate><atom:link href="https://blog.aswinkm.dev/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes</title>
+    <link>https://blog.aswinkm.dev/posts/kubernetes-the-hard-way-vagrant/</link>
+    <pubDate>Thu, 23 Jul 2026 17:18:05 &#43;0530</pubDate>
+    <author>xxxx</author>
+    <guid>https://blog.aswinkm.dev/posts/kubernetes-the-hard-way-vagrant/</guid>
+    <description><![CDATA[<p>If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.</p>
+<p>And that’s precisely the problem.</p>
+<p>Managed Kubernetes services and abstraction tools handle the heavy lifting: generating TLS certificates, configuring systemd service files, bootstrapping etcd consensus groups, and setting up Pod network routing behind the scenes. While this developer experience is incredible for day-to-day productivity, it creates a massive knowledge gap. When a worker node drops off the grid, an API server refuses to authorize requests, or a service fails to route traffic, abstract tools won&rsquo;t help you debug what&rsquo;s happening under the hood.</p>]]></description>
+</item>
+<item>
     <title>Why I Dumped LocalStack for Floci: Am I just saving a quick buck?</title>
     <link>https://blog.aswinkm.dev/posts/localstack-to-floci/</link>
     <pubDate>Fri, 17 Jul 2026 19:25:23 &#43;0530</pubDate>
