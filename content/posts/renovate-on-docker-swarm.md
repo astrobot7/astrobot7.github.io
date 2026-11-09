@@ -3,7 +3,7 @@ date = '2026-11-10T01:45:00+05:30'
 draft = false
 title = 'Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm'
 author = 'Aswin KM'
-url = '/renovate/'
+url = '/posts/renovate/'
 +++
 
 My homelab runs on a small Docker Swarm: a few ARM single-board computers and an x86 box spread across two locations, joined over Tailscale. Every stack lives in a single Git repository, and Portainer's GitOps sync deploys whatever lands on `main`. It is a setup I am genuinely happy with, except for one line that kept showing up in almost every stack file:
