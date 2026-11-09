@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="Personal blog of Aswin KM — cloud infrastructure, GCP, and Kubernetes."><meta property="og:url" content="http://localhost:1313/posts/renovate-on-docker-swarm/">
+	<meta property="og:site_name" content="Aswin | Cloud Infrastructure Engineer">
+	<meta property="og:title" content="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm">
+	<meta property="og:description" content="My homelab runs on a small Docker Swarm: a few ARM single-board computers and an x86 box spread across two locations, joined over Tailscale. Every stack lives in a single Git repository, and Portainer’s GitOps sync deploys whatever lands on main. It is a setup I am genuinely happy with, except for one line that kept showing up in almost every stack file:
+image: traefik:latest Out of roughly forty images, most were pinned to latest. A handful were pinned to a version, and a few had no tag at all, which is the same thing as latest with less honesty.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-11-10T01:45:00+05:30">
+		<meta property="article:modified_time" content="2026-11-10T01:45:00+05:30">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm">
+	<meta name="twitter:description" content="My homelab runs on a small Docker Swarm: a few ARM single-board computers and an x86 box spread across two locations, joined over Tailscale. Every stack lives in a single Git repository, and Portainer’s GitOps sync deploys whatever lands on main. It is a setup I am genuinely happy with, except for one line that kept showing up in almost every stack file:
+image: traefik:latest Out of roughly forty images, most were pinned to latest. A handful were pinned to a version, and a few had no tag at all, which is the same thing as latest with less honesty.">
+<meta name="application-name" content="aswinkm.dev">
+<meta name="apple-mobile-web-app-title" content="aswinkm.dev">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/renovate-on-docker-swarm/" /><link rel="prev" href="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/renovate-on-docker-swarm\/"
+        },"genre": "posts","wordcount":  1920 ,
+        "url": "http:\/\/localhost:1313\/posts\/renovate-on-docker-swarm\/","datePublished": "2026-11-10T01:45:00+05:30","dateModified": "2026-11-10T01:45:00+05:30","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Aswin KM"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'auto';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Aswin | Cloud Infrastructure Engineer">aswinkm.dev</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Aswin | Cloud Infrastructure Engineer">aswinkm.dev</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2026-11-10">2026-11-10</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;1920 words&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-latest-is-a-problem-even-at-home">Why :latest Is a Problem (Even at Home)</a></li>
+    <li><a href="#pinning-by-digest-not-just-by-tag">Pinning by Digest, Not Just by Tag</a></li>
+    <li><a href="#teaching-renovate-about-swarm-stack-files">Teaching Renovate About Swarm Stack Files</a></li>
+    <li><a href="#self-hosting-renovate-on-swarm">Self-Hosting Renovate on Swarm</a></li>
+    <li><a href="#authentication-why-i-ended-up-with-a-github-app">Authentication: Why I Ended Up With a GitHub App</a></li>
+    <li><a href="#deploying-it-and-a-portainer-surprise">Deploying It (and a Portainer Surprise)</a></li>
+    <li><a href="#lessons-learned">Lessons Learned</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>My homelab runs on a small Docker Swarm: a few ARM single-board computers and an x86 box spread across two locations, joined over Tailscale. Every stack lives in a single Git repository, and Portainer&rsquo;s GitOps sync deploys whatever lands on <code>main</code>. It is a setup I am genuinely happy with, except for one line that kept showing up in almost every stack file:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-yaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">traefik:latest</span></span></span></code></pre></div></div>
+<p>Out of roughly forty images, most were pinned to <code>latest</code>. A handful were pinned to a version, and a few had no tag at all, which is the same thing as <code>latest</code> with less honesty.</p>
+<p>This post walks through how I replaced all of them with immutable, digest-pinned references and put a self-hosted Renovate bot on the swarm to keep them up to date through pull requests.</p>
+<h2 id="why-latest-is-a-problem-even-at-home">Why :latest Is a Problem (Even at Home)</h2>
+<p><code>latest</code> is not a version. It is a moving pointer that the image publisher can repoint at any time. In practice that meant three things for me:</p>
+<ul>
+<li><strong>Silent drift.</strong> Two nodes pulling <code>traefik:latest</code> a week apart could run two different Traefik versions, and nothing in Git would tell me.</li>
+<li><strong>Accidental upgrades.</strong> Any redeploy, a node reboot, or Swarm rescheduling a task could pull a new major version I had never looked at.</li>
+<li><strong>No rollback target.</strong> When something broke, &ldquo;go back to the previous version&rdquo; had no meaning, because the previous version was never written down anywhere.</li>
+</ul>
+<p>Git was supposed to be the source of truth for my infrastructure, but for the most important part of every service, the binary actually running, it wasn&rsquo;t.</p>
+<h2 id="pinning-by-digest-not-just-by-tag">Pinning by Digest, Not Just by Tag</h2>
+<p>The fix is to reference images by content digest. A digest is the SHA-256 of the image manifest, so it can never point at different bytes. I kept the tag in front of it for readability:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-yaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">traefik:latest@sha256:f4bb143d1135a579b630ed491e17ec50f6f7c9c6a30585ff3d385471d2a86f5a</span></span></span></code></pre></div></div>
+<p>When both are present, Docker ignores the tag and pulls exactly the digest. The tag is purely documentation, and it also tells Renovate which tag to track for future updates.</p>
+<p>One detail matters a lot on a mixed-architecture cluster. My nodes are a mix of <code>arm64</code> and <code>amd64</code>, so the digest has to be the <strong>multi-arch index digest</strong>, not the digest of one platform&rsquo;s manifest. Pin the <code>linux/arm64</code> manifest and the x86 node simply can&rsquo;t run the service. <code>docker buildx imagetools inspect</code> returns the index digest, and it only talks to the registry, so it works without a local Docker daemon:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker buildx imagetools inspect traefik:latest --format <span class="s1">&#39;{{json .Manifest.Digest}}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># &#34;sha256:f4bb143d1135a579b630ed491e17ec50f6f7c9c6a30585ff3d385471d2a86f5a&#34;</span></span></span></code></pre></div></div>
+<p>I collected every <code>image:</code> line across the repository, resolved each one once, and rewrote the files with a small script. Untagged images became <code>:latest@sha256:...</code> so the intent is explicit. Commented-out services were left alone, and the one image hosted in my private registry was skipped because nothing outside my network can read it.</p>
+<p>Pinning on its own only trades one problem for another: now nothing ever updates. That&rsquo;s where Renovate comes in.</p>
+<h2 id="teaching-renovate-about-swarm-stack-files">Teaching Renovate About Swarm Stack Files</h2>
+<p><a href="https://docs.renovatebot.com/" target="_blank" rel="noopener noreffer ">Renovate</a> understands Compose files out of the box, but its default file pattern only matches names like <code>docker-compose.yml</code> and <code>compose.yaml</code>. Swarm convention is <code>docker-stack.yml</code>, so without extra config Renovate simply never looks at most of my repository. Here is the repo-level <code>renovate.json</code>:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-json">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;$schema&#34;</span><span class="p">:</span> <span class="s2">&#34;https://docs.renovatebot.com/renovate-schema.json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;extends&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;config:recommended&#34;</span><span class="p">,</span> <span class="s2">&#34;docker:pinDigests&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timezone&#34;</span><span class="p">:</span> <span class="s2">&#34;Europe/Stockholm&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;docker-compose&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;managerFilePatterns&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;/(^|/)docker-(compose|stack)[^/]*\\.ya?ml$/&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;/(^|/)hwaccel\\.[^/]+\\.ya?ml$/&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;packageRules&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Floating tags only ever get digest bumps; batch them into one weekly PR&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;matchUpdateTypes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;digest&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;groupName&#34;</span><span class="p">:</span> <span class="s2">&#34;image digests&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;schedule&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;before 6am on monday&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Immich server and machine-learning must run the same version&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;matchPackageNames&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;ghcr.io/immich-app/**&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;groupName&#34;</span><span class="p">:</span> <span class="s2">&#34;immich&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Postgres major upgrades need a dump/restore; never propose them&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;matchPackageNames&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;pgvector/pgvector&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;matchUpdateTypes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;major&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Private registry: Renovate has no credentials for it&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;matchPackageNames&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;registry.aswinkm.dev/**&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>A few decisions worth explaining:</p>
+<ul>
+<li><strong><code>docker:pinDigests</code></strong> makes Renovate keep the <code>tag@digest</code> format. Any image added later without a digest gets a &ldquo;pin&rdquo; PR automatically.</li>
+<li><strong>Weekly digest batch.</strong> Images like the linuxserver.io ones get rebuilt constantly. Without grouping, I&rsquo;d get a dozen tiny PRs a week. Now every floating-tag refresh arrives as one PR on Monday morning.</li>
+<li><strong>Immich as a group.</strong> The server and the machine-learning container must run the same release, so they&rsquo;re updated together in a single PR.</li>
+<li><strong>No Postgres majors.</strong> A tag like <code>pg16</code> looks like a version to Renovate, so it would happily propose <code>pg17</code>. A major Postgres upgrade needs a dump and restore, which is not something I want a bot to suggest casually.</li>
+</ul>
+<p>Before trusting it, I validated the config and ran a dry extraction locally:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npx --package renovate -- renovate-config-validator --strict renovate.json
+</span></span><span class="line"><span class="cl"><span class="nv">RENOVATE_CONFIG_FILE</span><span class="o">=</span><span class="nv">$PWD</span>/renovate.json <span class="se">\
+</span></span></span><span class="line"><span class="cl">  npx renovate --platform<span class="o">=</span><span class="nb">local</span> --dry-run<span class="o">=</span>extract --report-type<span class="o">=</span>file --report-path<span class="o">=</span>report.json</span></span></code></pre></div></div>
+<p>One gotcha here: <code>--platform=local</code> only sees files tracked by Git. My new <code>renovate.json</code> was still uncommitted, so the first dry run silently ignored it and matched just 6 files. Passing the same file in as global config (<code>RENOVATE_CONFIG_FILE</code>) got around that, and the second run matched all 26 stack files and 43 images, every one with a digest except the private image.</p>
+<h2 id="self-hosting-renovate-on-swarm">Self-Hosting Renovate on Swarm</h2>
+<p>The hosted Mend app is the easy route, but I wanted the bot to live on the same cluster it maintains. The official <code>renovate/renovate</code> image is a CLI that runs once and exits, and Swarm has no CronJob equivalent. The simplest reliable answer is a loop inside the container:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-yaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">renovate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">renovate/renovate:44@sha256:0405454d925558d5a2368ddb1d8318244e96c73974697a5264a4d1977a277598</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">bash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- -<span class="l">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        while true; do
+</span></span></span><span class="line"><span class="cl"><span class="sd">          if node /usr/src/app/github-app-token.js /tmp/renovate-auth.env; then
+</span></span></span><span class="line"><span class="cl"><span class="sd">            ( . /tmp/renovate-auth.env &amp;&amp; renovate ) || echo &#34;renovate run failed (exit $$?)&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">            rm -f /tmp/renovate-auth.env
+</span></span></span><span class="line"><span class="cl"><span class="sd">          else
+</span></span></span><span class="line"><span class="cl"><span class="sd">            echo &#34;skipping run: could not get a GitHub App token&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">          fi
+</span></span></span><span class="line"><span class="cl"><span class="sd">          sleep &#34;$$RENOVATE_INTERVAL&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">        done</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RENOVATE_CONFIG_FILE=/usr/src/app/config.js</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RENOVATE_INTERVAL=3600</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">configs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">renovate-config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/src/app/config.js</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">renovate-app-token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/src/app/github-app-token.js</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">renovate-app-private-key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="m">0400</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;12021&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">placement</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">constraints</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="l">node.labels.host==pandora</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">2G</span></span></span></code></pre></div></div>
+<p>The global config is tiny, because everything repository-specific lives in <code>renovate.json</code>:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-js">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">platform</span><span class="o">:</span> <span class="s1">&#39;github&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">repositories</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;astrobot7/docker-compose&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">onboarding</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>          <span class="c1">// renovate.json is already committed
+</span></span></span><span class="line"><span class="cl">  <span class="nx">requireConfig</span><span class="o">:</span> <span class="s1">&#39;required&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">repositoryCache</span><span class="o">:</span> <span class="s1">&#39;enabled&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">persistRepoData</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">platformCommit</span><span class="o">:</span> <span class="s1">&#39;enabled&#39;</span><span class="p">,</span>  <span class="c1">// commit through the API: attributed to the app, shown as Verified
+</span></span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<p>Both files are mounted as Swarm configs. Swarm configs are immutable, so my repo already had a small CI step that appends a short content hash to every config name (<code>renovate-config-638242eb</code>). Change the file, and the hash changes, so Swarm creates a new config and rolls the service, with no manual cleanup.</p>
+<p>I also hit one surprise on the first validation run: Renovate printed <em>&ldquo;Renovate versions older than the latest major version are unsupported.&rdquo;</em> I&rsquo;d reached for version 43 from memory, and 44 had been out for months. Pinning by digest doesn&rsquo;t protect you from pinning to the wrong thing in the first place.</p>
+<h2 id="authentication-why-i-ended-up-with-a-github-app">Authentication: Why I Ended Up With a GitHub App</h2>
+<p>Renovate needs to clone the repo, push branches, open pull requests, and maintain its Dependency Dashboard issue. I went through three options:</p>
+<ol>
+<li><strong>A personal access token.</strong> It works, but it&rsquo;s tied to my personal account, every PR shows up as me, and it needs rotating by hand.</li>
+<li><strong>A deploy key.</strong> It&rsquo;s tempting, since it&rsquo;s scoped to one repo, but it&rsquo;s SSH-only. A deploy key can push branches but can&rsquo;t call the GitHub API, so it can&rsquo;t open a PR or touch an issue. It&rsquo;s a non-starter on its own.</li>
+<li><strong>A GitHub App.</strong> It&rsquo;s scoped to only the repositories it&rsquo;s installed on, it&rsquo;s not tied to my account, its tokens expire after an hour, and PRs come from <code>&lt;app&gt;[bot]</code>.</li>
+</ol>
+<p>The App won, with one wrinkle. I dug into Renovate&rsquo;s source to see how much it handles natively. It does support App tokens: hand it a token starting with <code>ghs_</code> and it switches to App mode, derives the <code>[bot]</code> git author, and discovers repositories through the installation. What it can&rsquo;t do is <em>mint</em> that token from the App&rsquo;s private key. Something has to do that exchange before every run.</p>
+<p>So I wrote that piece: about 50 lines of Node with no dependencies, using only <code>crypto</code> and <code>fetch</code>, which the Renovate image already ships:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-js">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">appJwt</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">now</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">b64url</span><span class="p">({</span> <span class="nx">alg</span><span class="o">:</span> <span class="s1">&#39;RS256&#39;</span><span class="p">,</span> <span class="nx">typ</span><span class="o">:</span> <span class="s1">&#39;JWT&#39;</span> <span class="si">}</span><span class="sb">)}.</span><span class="si">${</span><span class="nx">b64url</span><span class="p">({</span> <span class="nx">iat</span><span class="o">:</span> <span class="nx">now</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span> <span class="nx">exp</span><span class="o">:</span> <span class="nx">now</span> <span class="o">+</span> <span class="mi">540</span><span class="p">,</span> <span class="nx">iss</span><span class="o">:</span> <span class="nx">GITHUB_APP_ID</span> <span class="si">}</span><span class="sb">)}`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">sig</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="s1">&#39;RSA-SHA256&#39;</span><span class="p">,</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">body</span><span class="p">),</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">GITHUB_APP_KEY_FILE</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="sb">`</span><span class="si">${</span><span class="nx">body</span><span class="si">}</span><span class="sb">.</span><span class="si">${</span><span class="nx">sig</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">&#39;base64url&#39;</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">jwt</span> <span class="o">=</span> <span class="nx">appJwt</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">inst</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">gh</span><span class="p">(</span><span class="sb">`/repos/</span><span class="si">${</span><span class="nx">GITHUB_REPOSITORY</span><span class="si">}</span><span class="sb">/installation`</span><span class="p">,</span> <span class="nx">jwt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="p">{</span> <span class="nx">token</span> <span class="p">}</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">gh</span><span class="p">(</span><span class="sb">`/app/installations/</span><span class="si">${</span><span class="nx">inst</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">/access_tokens`</span><span class="p">,</span> <span class="nx">jwt</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// write RENOVATE_TOKEN / RENOVATE_GITHUB_COM_TOKEN exports for the run loop
+</span></span></span></code></pre></div></div>
+<p>The flow on every iteration is:</p>
+<ol>
+<li>Sign a 9-minute JWT with the App&rsquo;s private key, which comes from a Swarm secret readable only by Renovate&rsquo;s uid.</li>
+<li>Look up the App&rsquo;s installation on the repository.</li>
+<li>Exchange the JWT for a one-hour installation token.</li>
+<li>Run Renovate with that token, then delete it.</li>
+</ol>
+<p>If the exchange fails, the loop logs it and skips the run instead of crash-looping.</p>
+<p>The App&rsquo;s permissions are deliberately narrow: read and write on Contents, Pull requests, Issues and Workflows; read-only on Checks and Commit statuses; no webhook, since Renovate polls. With <code>platformCommit</code> enabled, Renovate creates its commits through the GitHub API rather than <code>git push</code>, so they show up as Verified and attributed to the App.</p>
+<h2 id="deploying-it-and-a-portainer-surprise">Deploying It (and a Portainer Surprise)</h2>
+<p>The stack is deployed like everything else: a Portainer Git stack pointing at <code>main</code>, with GitOps auto-update enabled. The first run looked exactly how I hoped:</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-text">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">github app &lt;app&gt;: installation &lt;id&gt; token issued
+</span></span><span class="line"><span class="cl"> INFO: Repository started (repository=astrobot7/docker-compose)
+</span></span><span class="line"><span class="cl"> INFO: Dependency extraction complete
+</span></span><span class="line"><span class="cl"> INFO: PR created (branch=renovate/ghcr.io-homarr-labs-homarr-1.x)
+</span></span><span class="line"><span class="cl"> INFO: PR created (branch=renovate/linuxserver-qbittorrent-5.x)
+</span></span><span class="line"><span class="cl"> INFO: Issue created
+</span></span><span class="line"><span class="cl"> INFO: Repository finished</span></span></code></pre></div></div>
+<p>Within minutes there were two real update PRs, Homarr <code>v1.50.1 → v1.77.2</code> and qBittorrent <code>5.1.4 → 5.3.0</code>, plus the Dependency Dashboard issue listing everything else Renovate knows about.</p>
+<p>The surprise came later, when merged PRs stopped rolling out. In Portainer 2.45, GitOps polling is driven per <strong>source</strong>, not per stack. A source is a repository URL plus its credentials, and the stack-level &ldquo;auto-update every 1m&rdquo; toggle doesn&rsquo;t start anything by itself. The repository&rsquo;s GitHub URL had changed at some point, and GitHub quietly redirects the old one. The older stacks were attached to a source using the old URL, which was polling happily. The newer stacks, Renovate&rsquo;s included, used the new URL. They had silently ended up on a second source that had no polling interval at all, so they had never been polled once.</p>
+<p>The lesson I&rsquo;m taking from this: once you automate updates, check the delivery half of the pipeline as carefully as the proposing half. A Renovate PR that merges but never deploys is worse than no PR at all, because it makes Git lie about what&rsquo;s running.</p>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<ul>
+<li><strong>Pin the index digest, not a platform digest</strong>, or your mixed-arch cluster will tell you about it the hard way.</li>
+<li><strong>Renovate&rsquo;s default Compose pattern doesn&rsquo;t match <code>docker-stack.yml</code>.</strong> If you run Swarm, <code>managerFilePatterns</code> is the first thing to configure.</li>
+<li><strong>Group the noise.</strong> Weekly batched digest PRs turn a firehose into one review a week.</li>
+<li><strong>Prefer a GitHub App over a PAT</strong>, but expect to mint the installation token yourself when self-hosting.</li>
+<li><strong>Dry-run before deploying.</strong> <code>renovate-config-validator</code> and <code>--dry-run=extract</code> caught a config that would otherwise have quietly matched only a quarter of my files.</li>
+<li><strong>Check how updates actually get deployed</strong>, not just whether they get proposed.</li>
+</ul>
+<p>The repository is now honest about what runs on every node: every image is an immutable reference, and every change to one arrives as a reviewable pull request. My homelab finally behaves like the GitOps setup I pretended it was.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2026-11-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/renovate-on-docker-swarm/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2frenovate-on-docker-swarm%2f&amp;text=Killing%20%3alatest%20in%20My%20Homelab%3a%20Digest-Pinned%20Images%20and%20a%20Self-Hosted%20Renovate%20on%20Docker%20Swarm" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/running-clickhouse-on-kubernetes/" class="prev" rel="prev" title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fas fa-angle-left" aria-hidden="true"></i>Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.169.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+</html>

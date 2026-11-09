@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="Personal blog of Aswin KM — cloud infrastructure, GCP, and Kubernetes."><meta property="og:url" content="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/">
+        <title>Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster - Aswin | Cloud Infrastructure Engineer</title><meta name="Description" content="Personal blog of Aswin KM — cloud infrastructure, GCP, and Kubernetes."><meta property="og:url" content="http://localhost:1313/posts/running-clickhouse-on-kubernetes/">
 	<meta property="og:site_name" content="Aswin | Cloud Infrastructure Engineer">
 	<meta property="og:title" content="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster">
 	<meta property="og:description" content="Running ClickHouse on Kubernetes manually can quickly become cumbersome: managing StatefulSets, maintaining topology layouts, handling persistent storage mappings, and orchestrating replication coordinators requires significant operational overhead.
@@ -25,9 +25,9 @@ This hands-on guide walks you through provisioning a local multi-node Kubernetes
 <meta name="apple-mobile-web-app-title" content="aswinkm.dev">
 <meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" /><link rel="prev" href="https://blog.aswinkm.dev/posts/kubernetes-the-hard-way-vagrant/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" /><link rel="prev" href="http://localhost:1313/posts/kubernetes-the-hard-way-vagrant/" /><link rel="next" href="http://localhost:1313/posts/renovate-on-docker-swarm/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -35,9 +35,9 @@ This hands-on guide walks you through provisioning a local multi-node Kubernetes
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/blog.aswinkm.dev\/posts\/running-clickhouse-on-kubernetes\/"
+            "@id": "http:\/\/localhost:1313\/posts\/running-clickhouse-on-kubernetes\/"
         },"genre": "posts","wordcount":  948 ,
-        "url": "https:\/\/blog.aswinkm.dev\/posts\/running-clickhouse-on-kubernetes\/","datePublished": "2026-09-20T22:18:23+05:30","dateModified": "2026-09-20T22:18:23+05:30","publisher": {
+        "url": "http:\/\/localhost:1313\/posts\/running-clickhouse-on-kubernetes\/","datePublished": "2026-09-20T22:18:23+05:30","dateModified": "2026-09-20T22:18:23+05:30","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -425,7 +425,7 @@ This hands-on guide walks you through provisioning a local multi-node Kubernetes
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=https%3a%2f%2fblog.aswinkm.dev%2fposts%2frunning-clickhouse-on-kubernetes%2f&amp;text=Running%20Clickhouse%20on%20Kubernetes%3a%20From%20Zero%20to%20a%20Replicated%20Production-Ready%20Cluster" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/running-clickhouse-on-kubernetes/" data-title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2frunning-clickhouse-on-kubernetes%2f&amp;text=Running%20Clickhouse%20on%20Kubernetes%3a%20From%20Zero%20to%20a%20Replicated%20Production-Ready%20Cluster" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -437,11 +437,12 @@ This hands-on guide walks you through provisioning a local multi-node Kubernetes
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/kubernetes-the-hard-way-vagrant/" class="prev" rel="prev" title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fas fa-angle-left" aria-hidden="true"></i>Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me About Networking and Control Planes</a></div>
+    <div class="post-nav"><a href="/posts/kubernetes-the-hard-way-vagrant/" class="prev" rel="prev" title="Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes"><i class="fas fa-angle-left" aria-hidden="true"></i>Under the Hood of K8s: What Kubernetes The Hard Way &#43; Vagrant Taught Me About Networking and Control Planes</a>
+            <a href="/posts/renovate-on-docker-swarm/" class="next" rel="next" title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm">Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.165.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.169.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span></div>
         </div>
     </footer></div>
@@ -454,5 +455,5 @@ This hands-on guide walks you through provisioning a local multi-node Kubernetes
         <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment" aria-hidden="true"></i>
             </a>
-        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
+        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.js"></script></body>
 </html>

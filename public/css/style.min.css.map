@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "/home/odin/dev/astrobot7.github.io",
+	"sourceRoot": "/Users/employee/dev/astrobot7.github.io",
 	"sources": [
 		"themes/loveit/assets/css/style.scss",
 		"themes/loveit/assets/lib/modern-normalize/modern-normalize.css",
