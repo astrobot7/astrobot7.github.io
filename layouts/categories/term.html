@@ -1,0 +1,23 @@
+{{- /* One category: cover banner, then its posts as summary cards (same as the home page). */ -}}
+{{- define "title" -}}
+    {{- .Title }} - {{ T .Data.Singular | default .Data.Singular }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    <div class="page home category-page">
+        {{- with .Params.featuredImage -}}
+            <div class="category-banner">
+                <img src="{{ . | relURL }}" alt="{{ $.Title }}" width="1200" height="630">
+            </div>
+        {{- end -}}
+        <h2 class="single-title category-page-title">
+            <i class="far fa-folder-open" aria-hidden="true"></i>&nbsp;{{ .Title }}
+        </h2>
+
+        {{- $paginator := .Paginate .Pages -}}
+        {{- range $paginator.Pages -}}
+            {{- .Render "summary" -}}
+        {{- end -}}
+        {{- partial "paginator.html" . -}}
+    </div>
+{{- end -}}

@@ -5,6 +5,8 @@ title = 'Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me
 author = 'Aswin KM'
 featuredImage = '/images/covers/kubernetes-the-hard-way-vagrant.svg'
 featuredImagePreview = '/images/covers/kubernetes-the-hard-way-vagrant.svg'
+tags = ['kubernetes', 'networking', 'vagrant']
+categories = ['Kubernetes']
 +++
 
 If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.

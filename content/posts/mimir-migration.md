@@ -5,6 +5,8 @@ title = 'Scaling Metrics Past the Limits of Prometheus Federation with Mimir'
 author = 'Aswin KM'
 featuredImage = '/images/covers/mimir-migration.svg'
 featuredImagePreview = '/images/covers/mimir-migration.svg'
+tags = ['prometheus', 'mimir', 'observability']
+categories = ['Observability']
 +++
 
 If you manage a growing multi-cluster Kubernetes environment, there comes a day when your central monitoring infrastructure starts to groan under its own weight. For us, that day arrived when our central, federated Prometheus instances began repeatedly throwing Out-Of-Memory (OOM) errors during heavy query loads.

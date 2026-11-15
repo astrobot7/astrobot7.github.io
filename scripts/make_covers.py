@@ -87,12 +87,29 @@ def cover(seed, tag, title_lines, subtitle, accent) -> str:
 '''
 
 
+# Category covers. The slug must match Hugo's urlized category name
+# (content/categories/<slug>/_index.md points at the file).
+CATEGORIES = [
+    ("kubernetes", ["Kubernetes"], "Clusters, control planes, stateful workloads", "#4f8cff"),
+    ("observability", ["Observability"], "Metrics, alerting and scaling Prometheus", "#a970ff"),
+    ("homelab", ["Homelab"], "Self-hosted infrastructure at home", "#3ecf8e"),
+    ("cloud", ["Cloud"], "AWS and local cloud development", "#ff8a3d"),
+    ("ai-agents", ["AI Agents"], "LLM agents working on real infrastructure", "#ff5d73"),
+]
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    root = OUT.parent.parent.parent
     for seed, (slug, tag, lines, sub, accent) in enumerate(POSTS):
         path = OUT / f"{slug}.svg"
         path.write_text(cover(seed, tag, lines, sub, accent))
-        print(f"wrote {path.relative_to(OUT.parent.parent.parent)}")
+        print(f"wrote {path.relative_to(root)}")
+    (OUT / "categories").mkdir(exist_ok=True)
+    for seed, (slug, lines, sub, accent) in enumerate(CATEGORIES, start=len(POSTS)):
+        path = OUT / "categories" / f"{slug}.svg"
+        path.write_text(cover(seed, "CATEGORY", lines, sub, accent))
+        print(f"wrote {path.relative_to(root)}")
 
 
 if __name__ == "__main__":
