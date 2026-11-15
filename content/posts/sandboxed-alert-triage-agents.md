@@ -3,6 +3,8 @@ date = '2026-11-15T21:30:00+05:30'
 draft = false
 title = 'Letting an AI Agent Near Production Alerts: Sandboxed Triage and Remediation on Kubernetes'
 author = 'Aswin KM'
+featuredImage = '/images/covers/sandboxed-alert-triage-agents.svg'
+featuredImagePreview = '/images/covers/sandboxed-alert-triage-agents.svg'
 url = '/posts/agent-sandbox/'
 +++
 

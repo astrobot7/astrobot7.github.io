@@ -3,6 +3,8 @@ date = '2026-09-20T22:18:23+05:30'
 draft = false
 title = 'Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster'
 author = 'Aswin KM'
+featuredImage = '/images/covers/running-clickhouse-on-kubernetes.svg'
+featuredImagePreview = '/images/covers/running-clickhouse-on-kubernetes.svg'
 +++
 Running ClickHouse on Kubernetes manually can quickly become cumbersome: managing StatefulSets, maintaining topology layouts, handling persistent storage mappings, and orchestrating replication coordinators requires significant operational overhead.
 

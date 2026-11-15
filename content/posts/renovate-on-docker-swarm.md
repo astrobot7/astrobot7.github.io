@@ -3,6 +3,8 @@ date = '2026-11-10T01:45:00+05:30'
 draft = false
 title = 'Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm'
 author = 'Aswin KM'
+featuredImage = '/images/covers/renovate-on-docker-swarm.svg'
+featuredImagePreview = '/images/covers/renovate-on-docker-swarm.svg'
 url = '/posts/renovate/'
 +++
 

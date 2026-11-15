@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#ff8a3d" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ff8a3d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="1036" y1="392" x2="941" y2="461" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1036" y1="392" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="941" y1="461" x2="860" y2="370" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="941" y1="461" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="860" y1="370" x2="880" y2="269" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="860" y1="370" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="880" y1="269" x2="940" y2="161" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="880" y1="269" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="940" y1="161" x2="1060" y2="209" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="940" y1="161" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1060" y1="209" x2="1088" y2="315" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1060" y1="209" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1088" y1="315" x2="1036" y2="392" stroke="#ff8a3d" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1088" y1="315" x2="975" y2="315" stroke="#ff8a3d" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="1036" cy="392" r="8" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="941" cy="461" r="7" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="860" cy="370" r="12" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="880" cy="269" r="11" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="940" cy="161" r="10" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="1060" cy="209" r="9" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="1088" cy="315" r="8" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#ff8a3d" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#ff8a3d"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#ff8a3d"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#ff8a3d">AWS · LOCAL DEV</text>
+  <text x="80" y="250" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">LocalStack</text>
+    <text x="80" y="338" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">to Floci</text>
+  <text x="80" y="402" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">Am I just saving a quick buck?</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>

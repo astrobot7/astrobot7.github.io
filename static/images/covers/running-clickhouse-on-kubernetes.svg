@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#f5c518" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#f5c518" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="867" y1="262" x2="954" y2="219" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="867" y1="262" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="954" y1="219" x2="1070" y2="199" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="954" y1="219" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1070" y1="199" x2="1103" y2="316" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1070" y1="199" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1103" y1="316" x2="1040" y2="398" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1103" y1="316" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1040" y1="398" x2="938" y2="468" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1040" y1="398" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="938" y1="468" x2="853" y2="373" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="938" y1="468" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="853" y1="373" x2="867" y2="262" stroke="#f5c518" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="853" y1="373" x2="975" y2="315" stroke="#f5c518" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="867" cy="262" r="11" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="954" cy="219" r="10" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="1070" cy="199" r="9" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="1103" cy="316" r="8" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="1040" cy="398" r="7" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="938" cy="468" r="12" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="853" cy="373" r="11" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#f5c518" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#f5c518"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#f5c518"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#f5c518">KUBERNETES · DATABASES</text>
+  <text x="80" y="250" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">ClickHouse</text>
+    <text x="80" y="338" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">on Kubernetes</text>
+  <text x="80" y="402" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">From zero to a replicated production cluster</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>
