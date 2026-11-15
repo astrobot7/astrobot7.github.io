@@ -3,6 +3,8 @@ date = '2026-07-23T17:18:05+05:30'
 draft = false
 title = 'Under the Hood of K8s: What Kubernetes The Hard Way + Vagrant Taught Me About Networking and Control Planes'
 author = 'Aswin KM'
+featuredImage = '/images/covers/kubernetes-the-hard-way-vagrant.svg'
+featuredImagePreview = '/images/covers/kubernetes-the-hard-way-vagrant.svg'
 +++
 
 If you’ve worked with cloud-native applications over the last few years, chances are you’ve interacted with Kubernetes. Whether it’s spinning up an Amazon EKS cluster with a single terraform apply, provisioning Google GKE from a console, or running minikube start locally, modern tooling has made running container orchestrators deceptively easy.

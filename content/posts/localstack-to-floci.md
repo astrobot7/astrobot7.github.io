@@ -3,6 +3,8 @@ date = '2026-07-17T19:25:23+05:30'
 draft = false
 title = 'Why I Dumped LocalStack for Floci: Am I just saving a quick buck?'
 author= 'Aswin KM'
+featuredImage = '/images/covers/localstack-to-floci.svg'
+featuredImagePreview = '/images/covers/localstack-to-floci.svg'
 +++
 
 As an infrastructure engineer who has mainly worked on Google Cloud Platform on a professional level, It was important to me to be able to be cloud agnostic and have relevant experience with other cloud providers. Amazon Web Services being the biggest player out in the game, Initially, I tried to get my hands dirty with the free-tier provided by AWS. Alas, I ran into resource restrictions and paywalls as soon as I started playing around with it.

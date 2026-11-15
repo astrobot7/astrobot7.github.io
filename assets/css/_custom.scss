@@ -1,0 +1,11 @@
+// ==============================
+// Custom style (overrides themes/loveit/assets/css/_custom.scss)
+// ==============================
+
+// Stretch the agent-sandbox demo GIF to the full text width.
+// The theme only caps images at max-width: 100%, so a 960px GIF
+// stays narrower than the text column on wide screens.
+.single .content img[data-src$="remediation-demo.gif"] {
+  width: 100%;
+  height: auto;
+}
