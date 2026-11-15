@@ -21,6 +21,9 @@
                             <span class="category-cover-title">{{ .Title }}</span>
                             <span class="category-cover-count">{{ $count }} {{ cond (eq $count 1) "post" "posts" }}</span>
                         </span>
+                        {{- with .Description -}}
+                            <span class="category-cover-desc">{{ . }}</span>
+                        {{- end -}}
                     </a>
                 {{- end -}}
             {{- end -}}

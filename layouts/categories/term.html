@@ -13,6 +13,9 @@
         <h2 class="single-title category-page-title">
             <i class="far fa-folder-open" aria-hidden="true"></i>&nbsp;{{ .Title }}
         </h2>
+        {{- with .Content -}}
+            <div class="content category-intro">{{ . }}</div>
+        {{- end -}}
 
         {{- $paginator := .Paginate .Pages -}}
         {{- range $paginator.Pages -}}
