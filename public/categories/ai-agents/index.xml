@@ -1,0 +1,17 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>AI Agents - Category - Aswin | Cloud Infrastructure Engineer</title>
+        <link>https://blog.aswinkm.dev/categories/ai-agents/</link>
+        <description>AI Agents - Category - Aswin | Cloud Infrastructure Engineer</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 15 Nov 2026 21:30:00 &#43;0530</lastBuildDate><atom:link href="https://blog.aswinkm.dev/categories/ai-agents/" rel="self" type="application/rss+xml" /><item>
+    <title>Letting an AI Agent Near Production Alerts: Sandboxed Triage and Remediation on Kubernetes</title>
+    <link>https://blog.aswinkm.dev/posts/agent-sandbox/</link>
+    <pubDate>Sun, 15 Nov 2026 21:30:00 &#43;0530</pubDate>
+    <author>xxxx</author>
+    <guid>https://blog.aswinkm.dev/posts/agent-sandbox/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/covers/sandboxed-alert-triage-agents.svg" referrerpolicy="no-referrer">
+            </div><p>Most of an on-call page is reading. An alert fires, and before anyone can fix anything they open the pod, read its events, pull the previous container&rsquo;s logs, search traces around the time it started, and work out what changed. That part is mechanical enough that an LLM agent with the right tools does a decent first pass. The reasoning turns out to be the easy part. Deciding what that agent is allowed to touch is the hard one.</p>]]></description>
+</item>
+</channel>
+</rss>

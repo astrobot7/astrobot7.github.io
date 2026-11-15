@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#4f8cff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#4f8cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="1066" y1="315" x2="1064" y2="427" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1066" y1="315" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1064" y1="427" x2="948" y2="432" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1064" y1="427" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="948" y1="432" x2="887" y2="358" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="948" y1="432" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="887" y1="358" x2="840" y2="250" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="887" y1="358" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="840" y1="250" x2="947" y2="190" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="840" y1="250" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="947" y1="190" x2="1041" y2="232" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="947" y1="190" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1041" y1="232" x2="1066" y2="315" stroke="#4f8cff" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1041" y1="232" x2="975" y2="315" stroke="#4f8cff" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="1066" cy="315" r="7" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="1064" cy="427" r="12" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="948" cy="432" r="11" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="887" cy="358" r="10" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="840" cy="250" r="9" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="947" cy="190" r="8" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="1041" cy="232" r="7" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#4f8cff" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#4f8cff"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#4f8cff"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#4f8cff">KUBERNETES · NETWORKING</text>
+  <text x="80" y="250" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">Kubernetes</text>
+    <text x="80" y="338" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">the Hard Way</text>
+  <text x="80" y="402" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">Control planes and pod networking on Vagrant</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>
