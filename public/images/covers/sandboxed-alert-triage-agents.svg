@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#ff5d73" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ff5d73" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="948" y1="190" x2="1042" y2="233" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="948" y1="190" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1042" y1="233" x2="1133" y2="317" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1042" y1="233" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1133" y1="317" x2="1058" y2="422" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1133" y1="317" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1058" y1="422" x2="949" y2="425" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1058" y1="422" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="949" y1="425" x2="893" y2="353" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="949" y1="425" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="893" y1="353" x2="847" y2="252" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="893" y1="353" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="847" y1="252" x2="948" y2="190" stroke="#ff5d73" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="847" y1="252" x2="975" y2="315" stroke="#ff5d73" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="948" cy="190" r="12" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="1042" cy="233" r="11" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="1133" cy="317" r="10" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="1058" cy="422" r="9" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="949" cy="425" r="8" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="893" cy="353" r="7" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="847" cy="252" r="12" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#ff5d73" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#ff5d73"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#ff5d73"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#ff5d73">AI AGENTS · SRE</text>
+  <text x="80" y="250" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">Sandboxed alert</text>
+    <text x="80" y="338" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">triage agents</text>
+  <text x="80" y="402" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">Letting an AI agent near production alerts</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>

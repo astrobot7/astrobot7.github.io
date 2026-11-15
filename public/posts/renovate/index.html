@@ -14,6 +14,9 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
 		<meta property="article:section" content="posts">
 		<meta property="article:published_time" content="2026-11-10T01:45:00+05:30">
 		<meta property="article:modified_time" content="2026-11-10T01:45:00+05:30">
+		<meta property="article:tag" content="Docker-Swarm">
+		<meta property="article:tag" content="Renovate">
+		<meta property="article:tag" content="Homelab">
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm">
@@ -23,7 +26,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
 <meta name="apple-mobile-web-app-title" content="aswinkm.dev">
 <meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.aswinkm.dev/posts/renovate/" /><link rel="prev" href="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.aswinkm.dev/posts/renovate/" /><link rel="prev" href="https://blog.aswinkm.dev/posts/running-clickhouse-on-kubernetes/" /><link rel="next" href="https://blog.aswinkm.dev/posts/agent-sandbox/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
@@ -34,7 +37,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.aswinkm.dev\/posts\/renovate\/"
-        },"genre": "posts","wordcount":  1920 ,
+        },"genre": "posts","keywords": "docker-swarm, renovate, homelab","wordcount":  1920 ,
         "url": "https:\/\/blog.aswinkm.dev\/posts\/renovate\/","datePublished": "2026-11-10T01:45:00+05:30","dateModified": "2026-11-10T01:45:00+05:30","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -62,7 +65,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
             <a href="/" title="Aswin | Cloud Infrastructure Engineer">aswinkm.dev</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Case Studies </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About &amp; Resume </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust" aria-hidden="true"></i>
                 </a></div>
         </div>
@@ -77,7 +80,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Case Studies</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About &amp; Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust" aria-hidden="true"></i>
             </a></div>
     </div>
@@ -86,10 +89,17 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span></div>
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>Aswin KM</a></span>&nbsp;<span class="post-category">included in <a href="/categories/homelab/"><i class="far fa-folder" aria-hidden="true"></i>Homelab</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2026-11-10">2026-11-10</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;1920 words&nbsp;
                 <i class="far fa-clock" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/covers/renovate-on-docker-swarm.svg"
+        data-srcset="/images/covers/renovate-on-docker-swarm.svg, /images/covers/renovate-on-docker-swarm.svg 1.5x, /images/covers/renovate-on-docker-swarm.svg 2x"
+        data-sizes="auto"
+        alt="/images/covers/renovate-on-docker-swarm.svg"
+        title="/images/covers/renovate-on-docker-swarm.svg" /></div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
@@ -143,7 +153,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
 <p>Pinning on its own only trades one problem for another: now nothing ever updates. That&rsquo;s where Renovate comes in.</p>
 <h2 id="teaching-renovate-about-swarm-stack-files">Teaching Renovate About Swarm Stack Files</h2>
 <p><a href="https://docs.renovatebot.com/" target="_blank" rel="noopener noreffer ">Renovate</a> understands Compose files out of the box, but its default file pattern only matches names like <code>docker-compose.yml</code> and <code>compose.yaml</code>. Swarm convention is <code>docker-stack.yml</code>, so without extra config Renovate simply never looks at most of my repository. Here is the repo-level <code>renovate.json</code>:</p>
-<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
     <div class="code-header language-json">
         <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
@@ -202,7 +212,7 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
 <p>One gotcha here: <code>--platform=local</code> only sees files tracked by Git. My new <code>renovate.json</code> was still uncommitted, so the first dry run silently ignored it and matched just 6 files. Passing the same file in as global config (<code>RENOVATE_CONFIG_FILE</code>) got around that, and the second run matched all 26 stack files and 43 images, every one with a digest except the private image.</p>
 <h2 id="self-hosting-renovate-on-swarm">Self-Hosting Renovate on Swarm</h2>
 <p>The hosted Mend app is the easy route, but I wanted the bot to live on the same cluster it maintains. The official <code>renovate/renovate</code> image is a CLI that runs once and exits, and Swarm has no CronJob equivalent. The simplest reliable answer is a loop inside the container:</p>
-<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
     <div class="code-header language-yaml">
         <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
@@ -330,19 +340,20 @@ image: traefik:latest Out of roughly forty images, most were pinned to latest. A
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://blog.aswinkm.dev/posts/renovate/"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=https%3a%2f%2fblog.aswinkm.dev%2fposts%2frenovate%2f&amp;text=Killing%20%3alatest%20in%20My%20Homelab%3a%20Digest-Pinned%20Images%20and%20a%20Self-Hosted%20Renovate%20on%20Docker%20Swarm" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm" data-hashtags="docker-swarm,renovate,homelab"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://blog.aswinkm.dev/posts/renovate/" data-hashtag="docker-swarm"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm" data-image="/images/covers/renovate-on-docker-swarm.svg"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="https://blog.aswinkm.dev/posts/renovate/" data-title="Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted Renovate on Docker Swarm" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=https%3a%2f%2fblog.aswinkm.dev%2fposts%2frenovate%2f&amp;text=Killing%20%3alatest%20in%20My%20Homelab%3a%20Digest-Pinned%20Images%20and%20a%20Self-Hosted%20Renovate%20on%20Docker%20Swarm" target="_blank" title="Share on Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/docker-swarm/">Docker-Swarm</a>,&nbsp;<a href="/tags/renovate/">Renovate</a>,&nbsp;<a href="/tags/homelab/">Homelab</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/running-clickhouse-on-kubernetes/" class="prev" rel="prev" title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fas fa-angle-left" aria-hidden="true"></i>Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster</a></div>
+    <div class="post-nav"><a href="/posts/running-clickhouse-on-kubernetes/" class="prev" rel="prev" title="Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster"><i class="fas fa-angle-left" aria-hidden="true"></i>Running Clickhouse on Kubernetes: From Zero to a Replicated Production-Ready Cluster</a>
+            <a href="/posts/agent-sandbox/" class="next" rel="next" title="Letting an AI Agent Near Production Alerts: Sandboxed Triage and Remediation on Kubernetes">Letting an AI Agent Near Production Alerts: Sandboxed Triage and Remediation on Kubernetes<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#3ecf8e" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#3ecf8e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="873" y1="363" x2="894" y2="275" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="873" y1="363" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="894" y1="275" x2="944" y2="176" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="894" y1="275" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="944" y1="176" x2="1051" y2="221" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="944" y1="176" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1051" y1="221" x2="1073" y2="316" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1051" y1="221" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1073" y1="316" x2="1068" y2="433" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1073" y1="316" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1068" y1="433" x2="946" y2="439" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1068" y1="433" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="946" y1="439" x2="873" y2="363" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="946" y1="439" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="873" cy="363" r="10" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="894" cy="275" r="9" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="944" cy="176" r="8" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="1051" cy="221" r="7" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="1073" cy="316" r="12" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="1068" cy="433" r="11" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="946" cy="439" r="10" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#3ecf8e"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#3ecf8e"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#3ecf8e">HOMELAB · DOCKER SWARM</text>
+  <text x="80" y="290" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">Killing :latest</text>
+  <text x="80" y="354" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">Digest-pinned images and self-hosted Renovate</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>
