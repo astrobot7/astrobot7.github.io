@@ -5,6 +5,8 @@ title = 'Killing :latest in My Homelab: Digest-Pinned Images and a Self-Hosted R
 author = 'Aswin KM'
 featuredImage = '/images/covers/renovate-on-docker-swarm.svg'
 featuredImagePreview = '/images/covers/renovate-on-docker-swarm.svg'
+tags = ['docker-swarm', 'renovate', 'homelab']
+categories = ['Homelab']
 url = '/posts/renovate/'
 +++
 

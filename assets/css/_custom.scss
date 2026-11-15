@@ -9,3 +9,58 @@
   width: 100%;
   height: auto;
 }
+
+// Categories index (layouts/categories/taxonomy.html): grid of cover cards.
+.category-covers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.category-cover {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(127, 127, 127, .25);
+  transition: transform .15s ease, box-shadow .15s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.category-cover-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: .6rem .9rem;
+}
+
+.category-cover-title {
+  font-weight: 600;
+}
+
+.category-cover-count {
+  font-size: .875rem;
+  color: #969696;
+}
+
+// Single category (layouts/categories/term.html): cover banner above the post list.
+.category-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.category-page-title {
+  margin: 1.5rem 0 .5rem;
+}

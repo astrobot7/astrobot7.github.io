@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#3ecf8e" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#3ecf8e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1218"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g>
+    <line x1="1066" y1="434" x2="944" y2="439" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1066" y1="434" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="944" y1="439" x2="879" y2="359" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="944" y1="439" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="879" y1="359" x2="834" y2="244" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="879" y1="359" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="834" y1="244" x2="947" y2="183" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="834" y1="244" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="947" y1="183" x2="1047" y2="228" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="947" y1="183" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1047" y1="228" x2="1066" y2="317" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1047" y1="228" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <line x1="1066" y1="317" x2="1066" y2="434" stroke="#3ecf8e" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="1066" y1="317" x2="975" y2="315" stroke="#3ecf8e" stroke-opacity="0.2" stroke-width="2"/>
+    <circle cx="1066" cy="434" r="9" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="944" cy="439" r="8" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="879" cy="359" r="7" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="834" cy="244" r="12" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="947" cy="183" r="11" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="1047" cy="228" r="10" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="1066" cy="317" r="9" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="975" cy="315" r="16" fill="#0f1218" stroke="#3ecf8e" stroke-width="3"/>
+    <circle cx="975" cy="315" r="6" fill="#3ecf8e"/>
+  </g>
+  <rect x="80" y="120" width="56" height="6" rx="3" fill="#3ecf8e"/>
+  <text x="80" y="170" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="600" letter-spacing="3" fill="#3ecf8e">CATEGORY</text>
+  <text x="80" y="290" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="800" fill="#f2f4f8">Homelab</text>
+  <text x="80" y="354" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#9aa3b2">Self-hosted infrastructure at home</text>
+  <text x="80" y="560" font-family="'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5d6675">blog.aswinkm.dev</text>
+</svg>

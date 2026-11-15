@@ -5,6 +5,8 @@ title = 'Letting an AI Agent Near Production Alerts: Sandboxed Triage and Remedi
 author = 'Aswin KM'
 featuredImage = '/images/covers/sandboxed-alert-triage-agents.svg'
 featuredImagePreview = '/images/covers/sandboxed-alert-triage-agents.svg'
+tags = ['ai-agents', 'kubernetes', 'signoz', 'sre']
+categories = ['AI Agents']
 url = '/posts/agent-sandbox/'
 +++
 
