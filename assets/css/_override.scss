@@ -1,0 +1,32 @@
+// ==============================
+// Override Variables: dark developer palette (GitHub-dark style)
+// ==============================
+
+$mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+$header-title-font-family: $mono;
+$code-font-family: $mono;
+
+$global-background-color-dark: #0d1117;
+$global-font-color-dark: #c9d1d9;
+$global-font-secondary-color-dark: #8b949e;
+$global-link-color-dark: #c9d1d9;
+$global-link-hover-color-dark: #3fb950;
+$global-border-color-dark: #30363d;
+$selection-color-dark: rgba(56, 139, 253, .4);
+
+$header-background-color-dark: #010409;
+$header-hover-color-dark: #3fb950;
+$search-background-color-dark: #161b22;
+
+$single-link-color-dark: #58a6ff;
+$single-link-hover-color-dark: #79c0ff;
+$table-background-color-dark: #161b22;
+$table-thead-color-dark: #0d1117;
+$blockquote-color-dark: #3fb950;
+$pagination-link-color-dark: #8b949e;
+$pagination-link-hover-color-dark: #3fb950;
+
+$code-color-dark: #ff7b72;
+$code-background-color-dark: #161b22;
+$code-info-color-dark: #8b949e;

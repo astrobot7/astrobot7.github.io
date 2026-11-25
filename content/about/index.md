@@ -4,14 +4,14 @@ description: "Infrastructure engineer with 9 years of experience in GCP and Kube
 ---
 # About Me
 
-Hi, I'm Aswin. I build and run the platforms other engineers deploy to: Kubernetes clusters, cloud infrastructure, and the automation that keeps both boring in the best way. I've done this for nine years, most of them at Truecaller in Stockholm. I've since moved back home to Kochi, Kerala, and I'm looking for the right next role.
+Hi, I'm Aswin. I build and run the platforms other engineers deploy to: Kubernetes clusters, cloud infrastructure, and the automation that keeps both boring in the best way. I've done this for nine years. These days I work at [SigNoz](https://signoz.io) from Kochi, Kerala. Before that I spent most of my career at Truecaller in Stockholm.
 
 [Resume (PDF)](/documents/resume.pdf) · [LinkedIn](https://www.linkedin.com/in/aswin-km) · [GitHub](https://github.com/astrobot7) · [Email](mailto:dev.aswinkm@gmail.com)
 
-## Things I've Built
+## Things I Built at Truecaller
 
 - Kubernetes operators for ScyllaDB and Redis that handle setup, configuration and day-2 operations, with an end-to-end test framework that runs them in GitHub CI before anything reaches production.
-- Truecaller's move from on-prem to GCP, which I contributed to, and the migration of the payments platform from AWS to GCP, which I led.
+- The company's move from on-prem to GCP, which I contributed to, and the migration of the payments platform from AWS to GCP, which I led.
 - A company-wide rollout of Grafana Mimir after a proof of concept, replacing Prometheus federation that had hit its limits. I [wrote about it here]({{< relref "posts/mimir-migration" >}}).
 - A move from self-managed Istio to Anthos Service Mesh, which took mesh upgrades off the team's plate.
 - GitOps for infrastructure with Config Sync and Config Connector, Terraform for everything on GCP, and Ansible to stop configuration drift.
@@ -32,9 +32,5 @@ Away from the keyboard I'm usually trekking or planning the next trip.
 | Cloud | GCP, AWS |
 | Kubernetes | GKE, k3s, operators in Go, Config Connector, Argo CD, Flux |
 | Infrastructure as code | Terraform, Ansible, Chef, cloud-init |
-| Observability | Grafana stack and Mimir, ELK, Splunk, Cloud Monitoring |
+| Observability | SigNoz, Grafana stack and Mimir, ELK, Splunk, Cloud Monitoring |
 | Data | Cassandra, ScyllaDB, PostgreSQL, MongoDB, Redis, ClickHouse |
-
-## Work With Me
-
-I'm open to senior infrastructure and platform roles, and to consulting on GCP and Kubernetes: migrations, cluster design, GitOps and observability. Email or LinkedIn is the fastest way to reach me.
