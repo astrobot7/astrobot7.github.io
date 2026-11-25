@@ -1,0 +1,31 @@
+{{- /* Case Studies (/posts/): intro from content/posts/_index.md, then every post as a cover card. */ -}}
+{{- define "title" -}}
+    {{- .Title | default (T .Section) }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    <div class="page archive">
+        <h2 class="single-title animate__animated animate__pulse animate__faster">{{ .Title | default (T .Section) }}</h2>
+        {{- with .Content -}}
+            <div class="content category-intro">{{ . }}</div>
+        {{- end -}}
+
+        <div class="category-covers">
+            {{- range .Pages.ByDate.Reverse -}}
+                <a class="category-cover" href="{{ .RelPermalink }}">
+                    {{- with .Params.featuredImagePreview | default .Params.featuredImage -}}
+                        <img src="{{ . | relURL }}" alt="" width="1200" height="630" loading="lazy">
+                    {{- end -}}
+                    <span class="category-cover-meta">
+                        <span class="category-cover-count">{{ .Date.Format "Jan 2006" }}</span>
+                        {{- with .Params.categories -}}
+                            <span class="category-cover-count">{{ index . 0 }}</span>
+                        {{- end -}}
+                    </span>
+                    <span class="category-cover-desc case-study-title">{{ .Title }}</span>
+                    <span class="category-cover-desc">{{ .Summary | plainify | htmlUnescape | truncate 140 }}</span>
+                </a>
+            {{- end -}}
+        </div>
+    </div>
+{{- end -}}
