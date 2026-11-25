@@ -5,11 +5,14 @@ title = "Aswin | Cloud Infrastructure Engineer"
 description = "Aswin | Cloud Infrastructure Engineer"
 
 [params]
+  defaultTheme = 'dark'
   title = 'aswinkm.dev'
 	description = 'Personal blog of Aswin KM — cloud infrastructure, GCP, and Kubernetes.'
 
   [params.header.title]
     name = 'aswinkm.dev'
+    pre = '<span class="prompt">~$</span>'
+    post = '<span class="cursor">_</span>'
 
   [params.app]
     title = 'aswinkm.dev'

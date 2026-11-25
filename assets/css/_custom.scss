@@ -89,3 +89,42 @@
 .category-intro {
   margin-bottom: 1.5rem;
 }
+
+// Developer look: monospace headings, nav and meta; terminal prompt in the header title.
+.header-title, .menu, .single-title, .single .content h2, .single .content h3,
+.summary .single-title, .post-meta, .single-subtitle, .page h2.single-title {
+  font-family: $mono;
+}
+
+.header-title .prompt {
+  color: #3fb950;
+  margin-right: .4rem;
+}
+
+.header-title .cursor {
+  color: #3fb950;
+  animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-title .cursor { animation: none; }
+}
+
+[theme=dark] {
+  // Theme already prints a header mark; turn it into markdown-style hashes.
+  .single .content > h2 > .header-mark::before { content: "##"; color: #3fb950; }
+  .single .content > h3 > .header-mark::before { content: "###"; color: #3fb950; }
+  .category-cover { border-color: #30363d; }
+  .category-cover:hover { box-shadow: 0 0 0 1px #3fb950, 0 8px 24px rgba(0, 0, 0, .5); }
+}
+
+// Case Studies (layouts/posts/section.html): post title on a cover card.
+.case-study-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: inherit;
+}

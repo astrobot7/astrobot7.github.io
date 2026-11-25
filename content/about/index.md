@@ -1,15 +1,36 @@
 ---
 title: ""
-description: "Infrastructure Consultant with 9+ years of experience in GCP and Kubernetes."
+description: "Infrastructure engineer with 9 years of experience in GCP and Kubernetes."
 ---
 # About Me
-Senior Infrastructure Engineer with 9 years of experience building and operating scalable, automated cloud infrastructure. Deep expertise inKubernetes and GCP, with a strong emphasis on Infrastructure as a Service, GitOps, and operational automation. Proven track record in cloud migrations, platform reliability and managing large-scale distributed systems. Experienced mentor and collaborator who drives infrastructure efficiency and resilience across teams. Currently moved back to Kochi and on the lookout for the right
-opportunities to put my skills into good use.
 
-[**Resume (PDF)**](/documents/resume.pdf)
+Hi, I'm Aswin. I build and run the platforms other engineers deploy to: Kubernetes clusters, cloud infrastructure, and the automation that keeps both boring in the best way. I've done this for nine years. These days I work at [SigNoz](https://signoz.io) from Kochi, Kerala. Before that I spent most of my career at Truecaller in Stockholm.
 
-## Core Competencies
-* **Cloud Platforms:** Google Cloud Platform (GCP) Specialist.
-* **Orchestration:** Advanced Kubernetes (GKE) architecture and management.
-* **Infrastructure as Code:** Terraform, Google Config Connector.
-* **GitOps:** ArgoCD and Github Actions.
+[Resume (PDF)](/documents/resume.pdf) · [LinkedIn](https://www.linkedin.com/in/aswin-km) · [GitHub](https://github.com/astrobot7) · [Email](mailto:dev.aswinkm@gmail.com)
+
+## Things I Built at Truecaller
+
+- Kubernetes operators for ScyllaDB and Redis that handle setup, configuration and day-2 operations, with an end-to-end test framework that runs them in GitHub CI before anything reaches production.
+- The company's move from on-prem to GCP, which I contributed to, and the migration of the payments platform from AWS to GCP, which I led.
+- A company-wide rollout of Grafana Mimir after a proof of concept, replacing Prometheus federation that had hit its limits. I [wrote about it here]({{< relref "posts/mimir-migration" >}}).
+- A move from self-managed Istio to Anthos Service Mesh, which took mesh upgrades off the team's plate.
+- GitOps for infrastructure with Config Sync and Config Connector, Terraform for everything on GCP, and Ansible to stop configuration drift.
+- A Hadoop/HDFS orchestration in Python that replaced Dataproc and saved a good chunk of the bill.
+
+Along the way I ran Cassandra, ScyllaDB, MongoDB, Redis, Elasticsearch and Memcached in production, took my share of on-call, and interviewed and onboarded a good number of engineers.
+
+## Off the Clock
+
+My homelab is where I try things before I'd recommend them to anyone. It's a handful of small machines across two sites, running k3s with Flux and Renovate, and it has already been through one full migration off Docker Swarm. The [homelab posts](/categories/homelab/) cover what worked and what didn't.
+
+Away from the keyboard I'm usually trekking or planning the next trip.
+
+## Toolbox
+
+| Area | Tools |
+|---|---|
+| Cloud | GCP, AWS |
+| Kubernetes | GKE, k3s, operators in Go, Config Connector, Argo CD, Flux |
+| Infrastructure as code | Terraform, Ansible, Chef, cloud-init |
+| Observability | SigNoz, Grafana stack and Mimir, ELK, Splunk, Cloud Monitoring |
+| Data | Cassandra, ScyllaDB, PostgreSQL, MongoDB, Redis, ClickHouse |
